@@ -5,6 +5,8 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -74,9 +76,21 @@ public class GUI extends JFrame{
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            new SQL_Persistence().setTrip(vorname.getText(), nachname.getText(), destination.getText(), preis.getText());
+
+                Reise trip = validateInput(vorname.getText(), nachname.getText(), destination.getText(), preis.getText());
+
+                // new SQL_Persistence().setTrip(vorname.getText(), nachname.getText(), destination.getText(), preis.getText());
+                new SQL_Persistence().setTrip(trip);
             }
         });
+    }
+
+    private Reise validateInput(String vorname, String nachname, String destination, String preisValue) {
+        // validate & return valid trip
+
+        int preis = Integer.parseInt(preisValue);
+
+        return new Reise(vorname, nachname, destination, preis);
     }
 
     public String showPreise(){

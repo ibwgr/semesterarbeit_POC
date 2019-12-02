@@ -1,26 +1,26 @@
 package GA_Trial;
 
 import javax.swing.*;
+import java.math.BigDecimal;
 
 public class Reise {
 
     public String destination;
     public String vorname;
     public String nachname;
-    public String preis;
+    public int preis;
 
 
 
-    public Reise(String destination, String vorname, String nachname, String preis) {
+    public Reise(String destination, String vorname, String nachname, int preis) {
         this.destination = destination;
         this.vorname = vorname;
         this.nachname = nachname;
         this.preis = preis;
-
     }
 
 
-    public Reise(String preis){
+    public Reise(int preis){
         this.preis=preis;
     }
 
