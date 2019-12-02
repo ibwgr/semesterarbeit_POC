@@ -77,7 +77,6 @@ public class GUI extends JFrame{
 
                 Reise trip = validateInput(vorname.getText(), nachname.getText(), destination.getText(), preis.getText());
 
-                // new SQL_Persistence().setTrip(vorname.getText(), nachname.getText(), destination.getText(), preis.getText());
                 new SQL_Persistence().setTrip(trip);
             }
         });

@@ -1,0 +1,13 @@
+DROP table if exists calculator.reise;
+
+
+CREATE table if not exists calculator.reise
+
+(
+    nr int not null AUTO_INCREMENT primary key,
+    vorname varchar(50),
+    nachname varchar(50),
+    destination VARCHAR(50),
+    preis int
+);
+

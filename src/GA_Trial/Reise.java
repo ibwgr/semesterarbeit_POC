@@ -9,6 +9,7 @@ public class Reise {
     public String vorname;
     public String nachname;
     public int preis;
+    public final int gaPreis = 5000;
 
 
 
@@ -20,9 +21,8 @@ public class Reise {
     }
 
 
-    public Reise(int preis){
-        this.preis=preis;
-    }
+
+
 
 
     @Override
