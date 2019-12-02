@@ -13,7 +13,7 @@ public class SQL_Persistence {
     String password = "salens15";
 
 
-    public  GUI setTrip(Reise trip) {
+    public void setTrip(Reise trip) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(databse, user, password);
@@ -38,7 +38,6 @@ public class SQL_Persistence {
                 }
             }
         }
-        return null;
     }
 
 
@@ -82,9 +81,10 @@ public class SQL_Persistence {
         return al;
     }
 
-    public ArrayList<Reise> getPreise() {
+    public int getPreise() {
 
         ArrayList<Reise> al = new ArrayList<>();
+        int sum = 0;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -92,13 +92,10 @@ public class SQL_Persistence {
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
-                ResultSet x = stat.executeQuery("SELECT preis FROM calculator.reise");
+                ResultSet x = stat.executeQuery("select preis from calculator.reise;");
                 while (x.next()){
-                    Reise k1 = new Reise(
-                            x.getInt("preis")
-                    );
-                    al.add(k1);
-
+                    int c = x.getInt("preis");
+                    sum = sum + c;
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -116,12 +113,10 @@ public class SQL_Persistence {
                 }
             }
         }
-
-        for (Reise r : al ){
-            System.out.println(r.preis);
+            System.out.println(sum);
+        return sum;
         }
 
-        return al;
     }
 
-}
+

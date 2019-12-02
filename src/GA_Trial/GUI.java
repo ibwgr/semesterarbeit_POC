@@ -18,7 +18,7 @@ public class GUI extends JFrame{
     JFrame c = new JFrame("Hallo");
     JPanel p = new JPanel();
     JButton b1 = new JButton("Eintragen");
-    JButton b2 = new JButton("Preise");
+    JButton b2 = new JButton("Total Reisekosten");
     JTextField date = new JTextField(String.valueOf(datum));
     JTextField vorname = new JTextField(10);
     JTextField nachname = new JTextField(10);
@@ -30,6 +30,9 @@ public class GUI extends JFrame{
     JLabel ort = new JLabel("Zielort");
     JTextArea zielort = new JTextArea();
     JTextArea area=new JTextArea("Welcome to javatpoint");
+
+
+
 
 
     public void newGUI(){
@@ -47,16 +50,11 @@ public class GUI extends JFrame{
         p.add(price);
         p.add(preis);
         p.add(b1);
-        p.add(b2);
         p.add(ort);
         p.add(destination);
+        p.add(b2);
         p.add(area);
-
-
         area.setVisible(true);
-        area.setLayout(null);
-        area.setBounds(10,30,200,200);
-        area.setSize(200,200);
         area.setText(showPreise());
 
         enterTrip();
@@ -97,7 +95,7 @@ public class GUI extends JFrame{
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               ArrayList<Reise> ergebnis = new SQL_Persistence().getPreise();
+              int ergebnis = new SQL_Persistence().getPreise();
                 area.setText(String.valueOf(ergebnis));
             }
         });
