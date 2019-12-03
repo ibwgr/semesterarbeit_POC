@@ -9,8 +9,10 @@ public class Reise {
     public String vorname;
     public String nachname;
     public int preis;
-    public final int gaPreis = 5000;
 
+
+
+    public Reise(){}
 
 
     public Reise(String destination, String vorname, String nachname, int preis) {
@@ -19,8 +21,6 @@ public class Reise {
         this.nachname = nachname;
         this.preis = preis;
     }
-
-
 
 
 

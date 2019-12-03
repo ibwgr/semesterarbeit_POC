@@ -28,8 +28,10 @@ public class GUI extends JFrame{
     JLabel lastname = new JLabel("nachname");
     JLabel price = new JLabel("Preis");
     JLabel ort = new JLabel("Zielort");
+    JLabel ga = new JLabel("GA-Verhältnis");
     JTextArea zielort = new JTextArea();
     JTextArea area=new JTextArea("Welcome to javatpoint");
+    JTextField value = new JTextField(10);
 
 
 
@@ -56,6 +58,8 @@ public class GUI extends JFrame{
         p.add(area);
         area.setVisible(true);
         area.setText(showPreise());
+        p.add(ga);
+        p.add(value);
 
         enterTrip();
 
@@ -95,7 +99,13 @@ public class GUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
               int ergebnis = new SQL_Persistence().getPreise();
+              double ergebnis2 = new SQL_Persistence().gaRelation();
+
                 area.setText(String.valueOf(ergebnis));
+                value.setText(String.valueOf(ergebnis2));
+
+
+
             }
         });
         return null;
