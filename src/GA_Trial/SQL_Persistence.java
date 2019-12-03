@@ -6,10 +6,10 @@ import java.util.ArrayList;
 public class SQL_Persistence {
 
 
-    String databse = "jdbc:mysql://localhost:3306/calculator";
+    String databse = "jdbc:mysql://sql7.freesqldatabase.com:3306/sql7314160";
     Connection con = null;
-    String user = "java";
-    String password = "java";
+    String user = "sql7314160";
+    String password = "L2cryr653U";
 
     public final double gaPreis = 5000;
     int sum = 0;
@@ -22,7 +22,7 @@ public class SQL_Persistence {
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
-                stat.executeUpdate("INSERT INTO calculator.Reise(vorname, nachname, destination, preis) VALUES('"+trip.vorname+"','"+trip.nachname+"','"+trip.destination+"','"+trip.preis+"')");
+                stat.executeUpdate("INSERT INTO sql7314160.reise(vorname, nachname, destination, preis) VALUES('"+trip.vorname+"','"+trip.nachname+"','"+trip.destination+"','"+trip.preis+"')");
             }
         } catch (ClassNotFoundException ex) {
             System.out.println("Datenbank nicht gefunden");
@@ -53,7 +53,7 @@ public class SQL_Persistence {
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
-                ResultSet x = stat.executeQuery("SELECT * FROM calculator.reise");
+                ResultSet x = stat.executeQuery("SELECT * FROM sql7314160.reise");
                 while (x.next()){
                     Reise k1 = new Reise(
                             x.getString("destination"),
@@ -91,7 +91,7 @@ public class SQL_Persistence {
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
-                ResultSet x = stat.executeQuery("select preis from calculator.reise;");
+                ResultSet x = stat.executeQuery("select preis from sql7314160.reise;");
                 while (x.next()){
                     int c = x.getInt("preis");
                     sum = sum + c;
@@ -126,7 +126,7 @@ public class SQL_Persistence {
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
-                ResultSet x = stat.executeQuery("select preis from calculator.reise;");
+                ResultSet x = stat.executeQuery("select preis from sql7314160.reise;");
                 while (x.next()){
                     int c = x.getInt("preis");
                     sum = sum + c;
@@ -149,7 +149,7 @@ public class SQL_Persistence {
             }
 
         }
-        double z = sum/gaPreis*100;
+        double z = Math.round((sum/gaPreis*100) * 100.0) / 100.0;
         return z;
     }
 }
