@@ -1,14 +1,11 @@
 package GA_Trial;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.ArrayList;
+
 
 public class GUI extends JFrame{
 
@@ -32,9 +29,7 @@ public class GUI extends JFrame{
     JTextArea zielort = new JTextArea();
     JTextArea area=new JTextArea("Welcome to javatpoint");
     JTextField value = new JTextField(10);
-
-
-
+    ImageIcon i = new ImageIcon("swisscom-logo-pgn");
 
 
     public void newGUI(){
@@ -60,6 +55,7 @@ public class GUI extends JFrame{
         area.setText(showPreise());
         p.add(ga);
         p.add(value);
+        //c.add(i);
 
         enterTrip();
 
@@ -94,6 +90,7 @@ public class GUI extends JFrame{
         return new Reise(vorname, nachname, destination, preis);
     }
 
+
     public String showPreise(){
         b2.addActionListener(new ActionListener() {
             @Override
@@ -103,13 +100,8 @@ public class GUI extends JFrame{
 
                 area.setText(String.valueOf(ergebnis));
                 value.setText(String.valueOf(ergebnis2));
-
-
-
             }
         });
         return null;
     }
-
-
 }

@@ -12,9 +12,6 @@ public class Reise {
 
 
 
-    public Reise(){}
-
-
     public Reise(String destination, String vorname, String nachname, int preis) {
         this.destination = destination;
         this.vorname = vorname;
