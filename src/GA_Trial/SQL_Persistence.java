@@ -8,8 +8,8 @@ public class SQL_Persistence {
 
     String databse = "jdbc:mysql://localhost:3306/calculator";
     Connection con = null;
-    String user = "root";
-    String password = "salens15";
+    String user = "java";
+    String password = "java";
 
     public final double gaPreis = 5000;
     int sum = 0;

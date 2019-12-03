@@ -12,10 +12,10 @@ public class Reise {
 
 
 
-    public Reise(String destination, String vorname, String nachname, int preis) {
-        this.destination = destination;
+    public Reise(String vorname, String nachname, String destination, int preis) {
         this.vorname = vorname;
         this.nachname = nachname;
+        this.destination = destination;
         this.preis = preis;
     }
 
