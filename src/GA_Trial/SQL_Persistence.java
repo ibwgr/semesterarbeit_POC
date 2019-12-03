@@ -1,5 +1,4 @@
 package GA_Trial;
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -11,6 +10,9 @@ public class SQL_Persistence {
     Connection con = null;
     String user = "root";
     String password = "salens15";
+
+    public final double gaPreis = 5000;
+    int sum = 0;
 
 
     public void setTrip(Reise trip) {
@@ -83,9 +85,6 @@ public class SQL_Persistence {
 
     public int getPreise() {
 
-        ArrayList<Reise> al = new ArrayList<>();
-        int sum = 0;
-
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(databse, user, password);
@@ -117,6 +116,42 @@ public class SQL_Persistence {
         return sum;
         }
 
+
+
+    public double gaRelation() {
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection(databse, user, password);
+            if (con != null) {
+                System.out.println("verbindung hergestellt");
+                Statement stat = con.createStatement();
+                ResultSet x = stat.executeQuery("select preis from calculator.reise;");
+                while (x.next()){
+                    int c = x.getInt("preis");
+                    sum = sum + c;
+                }
+            }
+
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Datenbank nicht gefunden");
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            System.out.println("Ein Fehler ist aufgetreten");
+            ex.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+        }
+        double z = sum/gaPreis*100;
+        return z;
     }
+}
 
 
