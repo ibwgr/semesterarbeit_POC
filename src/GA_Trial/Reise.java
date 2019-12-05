@@ -1,7 +1,6 @@
 package GA_Trial;
 
-import javax.swing.*;
-import java.math.BigDecimal;
+import java.util.Date;
 
 public class Reise {
 
@@ -9,14 +8,16 @@ public class Reise {
     public String vorname;
     public String nachname;
     public int preis;
+    public Date datum;
 
 
 
-    public Reise(String vorname, String nachname, String destination, int preis) {
+    public Reise(String vorname, String nachname, String destination, int preis, Date datum) {
         this.vorname = vorname;
         this.nachname = nachname;
         this.destination = destination;
         this.preis = preis;
+        this.datum = datum;
     }
 
 
@@ -24,6 +25,6 @@ public class Reise {
 
     @Override
     public String toString() {
-        return vorname + " " + nachname + " " + destination + " " + preis;
+        return vorname + " " + nachname + " " + destination + " " + preis + datum;
     }
 }
