@@ -7,7 +7,5 @@ public class main {
         GUI g = new GUI();
         g.newGUI();
 
-     //   SQL_Persistence trip = new SQL_Persistence();
-
         }
     }

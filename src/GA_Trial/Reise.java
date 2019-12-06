@@ -1,18 +1,15 @@
 package GA_Trial;
 
-import java.util.Date;
-
 public class Reise {
 
     public String destination;
     public String vorname;
     public String nachname;
-    public int preis;
-    public Date datum;
+    public String preis;
+    public String datum;
 
 
-
-    public Reise(String vorname, String nachname, String destination, int preis, Date datum) {
+    public Reise(String vorname, String nachname, String destination, String preis, String datum) {
         this.vorname = vorname;
         this.nachname = nachname;
         this.destination = destination;
@@ -21,10 +18,8 @@ public class Reise {
     }
 
 
-
-
     @Override
     public String toString() {
-        return vorname + " " + nachname + " " + destination + " " + preis + datum;
+        return datum + " " + vorname+ " " + nachname + " " + destination + " " + "CHF " +  preis + ".-\n";
     }
 }

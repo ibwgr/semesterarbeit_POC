@@ -58,11 +58,11 @@ public class SQL_Persistence {
                 ResultSet x = stat.executeQuery("SELECT * FROM sql7314160.reise");
                 while (x.next()){
                     Reise k1 = new Reise(
-                            x.getString("destination"),
-                            x.getString("vorname"),
                             x.getString("nachname"),
-                            x.getInt("preis"),
-                            x.getDate("datum")
+                            x.getString("vorname"),
+                            x.getString("destination"),
+                            x.getString("preis"),
+                            x.getString("datum")
                     );
                     al.add(k1);
                 }
@@ -82,6 +82,7 @@ public class SQL_Persistence {
                 }
             }
         }
+
         System.out.println(al);
         return al;
     }
@@ -118,8 +119,6 @@ public class SQL_Persistence {
             System.out.println(sum);
         return sum;
         }
-
-
 
     public double gaRelation() {
 
