@@ -1,4 +1,5 @@
 package GA_Trial;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -6,14 +7,13 @@ import java.util.ArrayList;
 public class SQL_Persistence {
 
 
-    String databse = "jdbc:mysql://sql7.freesqldatabase.com:3306/sql7314160";
+    String databse = "jdbc:mysql://localhost:3306/calculator";
     Connection con = null;
-    String user = "sql7314160";
-    String password = "L2cryr653U";
+    String user = "java";
+    String password = "java";
 
     public final double gaPreis = 5000;
     int sum = 0;
-
 
 
     public void setTrip(Reise trip) {
@@ -23,7 +23,7 @@ public class SQL_Persistence {
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
-                stat.executeUpdate("INSERT INTO sql7314160.reise(vorname, nachname, destination, preis, datum) " +
+                stat.executeUpdate("INSERT INTO calculator.reise(vorname, nachname, destination, preis, datum) " +
                         "VALUES('"+trip.vorname+"','"+trip.nachname+"','"+trip.destination+"','"+trip.preis+"','"+trip.datum+"')");
             }
         } catch (ClassNotFoundException ex) {
@@ -47,7 +47,8 @@ public class SQL_Persistence {
 
     public ArrayList<Reise> getReise() {
 
-        ArrayList<Reise> al = new ArrayList<>();
+       ArrayList<Reise> al = new ArrayList<>();
+
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -55,7 +56,7 @@ public class SQL_Persistence {
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
-                ResultSet x = stat.executeQuery("SELECT * FROM sql7314160.reise");
+                ResultSet x = stat.executeQuery("SELECT * FROM calculator.reise");
                 while (x.next()){
                     Reise k1 = new Reise(
                             x.getString("nachname"),
@@ -83,7 +84,7 @@ public class SQL_Persistence {
             }
         }
 
-        System.out.println(al);
+        System.out.print(al);
         return al;
     }
 
@@ -95,7 +96,7 @@ public class SQL_Persistence {
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
-                ResultSet x = stat.executeQuery("select preis from sql7314160.reise;");
+                ResultSet x = stat.executeQuery("select preis from calculator.reise;");
                 while (x.next()){
                     int c = x.getInt("preis");
                     sum = sum + c;
@@ -128,7 +129,7 @@ public class SQL_Persistence {
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
-                ResultSet x = stat.executeQuery("select preis from sql7314160.reise;");
+                ResultSet x = stat.executeQuery("select preis from calculator.reise;");
                 while (x.next()){
                     int c = x.getInt("preis");
                     sum = sum + c;

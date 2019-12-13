@@ -1,6 +1,6 @@
 package GA_Trial;
 
-public class Reise {
+public class Reise extends GUI{
 
     public String destination;
     public String vorname;
@@ -9,17 +9,35 @@ public class Reise {
     public String datum;
 
 
+
+
+
+
     public Reise(String vorname, String nachname, String destination, String preis, String datum) {
+
+
         this.vorname = vorname;
         this.nachname = nachname;
         this.destination = destination;
         this.preis = preis;
         this.datum = datum;
+
+
+
+
+
     }
+
+
 
 
     @Override
     public String toString() {
-        return datum + " " + vorname+ " " + nachname + " " + destination + " " + "CHF " +  preis + ".-\n";
+        return datum + " " + vorname+ " " + nachname + " " + destination + " " + "CHF " + preis + ".-\n";
     }
+
+
+
+
+
 }

@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class GUI extends JFrame{
+public class GUI extends JFrame {
 
-    String [] ziele = {"Zuerich", "Bern", "Chur"};
-    JComboBox desti = new JComboBox(ziele);
+    String[] ziele = {"Chur", "Bern", "Zürich"};
 
-    String a = (String) desti.getSelectedItem();
+    JComboBox<String> desti = new JComboBox(ziele);
+
     LocalDate x = LocalDate.now();
 
     JFrame c = new JFrame("GA-Calculation");
@@ -35,38 +35,37 @@ public class GUI extends JFrame{
     JTextField date = new JTextField(String.valueOf(x));
     JTextField vorname = new JTextField(10);
     JTextField nachname = new JTextField(10);
-    JTextField destination = new JTextField(10);
     JTextField preis = new JTextField(10);
 
     JLabel firstname = new JLabel("Vorname");
     JLabel lastname = new JLabel("Nachname");
     JLabel price = new JLabel("Preis");
-    JLabel ort = new JLabel("Zielort", JLabel.LEFT);
     JLabel ga = new JLabel("GA-Verhältnis %");
     JLabel su = new JLabel("Summe Reisekosten CHF");
 
     JTextArea reisen = new JTextArea(10, 10);
-    JTextField area=new JTextField(5);
+    JTextField area = new JTextField(5);
     JTextField value = new JTextField(5);
 
     ImageIcon ii = new ImageIcon("picture/swisscom-logo.png");
     JLabel image = new JLabel(ii, JLabel.CENTER);
 
 
-    public void newGUI(){
+    public void GUI() {
 
+        getSelectedPrice();
         c.setVisible(true);
-        c.setSize(600,500);
+        c.setSize(600, 500);
         c.add(p);
         c.add(tp);
 
-        b1.setPreferredSize(new Dimension(150,50));
+        b1.setPreferredSize(new Dimension(150, 50));
         b1.setBorderPainted(true);
 
-        b2.setPreferredSize(new Dimension(200,50));
+        b2.setPreferredSize(new Dimension(200, 50));
         b2.setBorderPainted(true);
 
-        b3.setPreferredSize(new Dimension(150,50));
+        b3.setPreferredSize(new Dimension(150, 50));
         b3.setBorderPainted(true);
 
         p.setVisible(true);
@@ -77,8 +76,6 @@ public class GUI extends JFrame{
         p.add(nachname);
         p.add(price);
         p.add(preis);
-        p.add(ort);
-        p.add(destination);
         p.add(date);
         p.add(b1);
         p.add(desti);
@@ -93,12 +90,13 @@ public class GUI extends JFrame{
 
         area.setVisible(true);
         area.setText(showPreise());
-        area.setBounds(50,50,200,200);
+        area.setBounds(50, 50, 200, 200);
 
         tp.add("Input", p);
         tp.add("Reports", q);
-        tp.setBounds(50,50,200,200);
+        tp.setBounds(50, 50, 200, 200);
         p.add(image);
+        preis.setText("50");
 
         enterTrip();
         showReise();
@@ -112,17 +110,14 @@ public class GUI extends JFrame{
     }
 
 
-    public GUI() {}
-
-
-    public void enterTrip(){
+    public void enterTrip() {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 Reise trip = null;
                 try {
-                    trip = validateInput(vorname.getText(), nachname.getText(), destination.getText(), preis.getText(), date.getText());
+                    trip = validateInput(vorname.getText(), nachname.getText(), (String) desti.getSelectedItem(), preis.getText(), date.getText());
                 } catch (ParseException ex) {
                     ex.printStackTrace();
                 }
@@ -136,18 +131,18 @@ public class GUI extends JFrame{
 
         //DatumValidirung noch erfassen inkl. Fehlermeldung
 
-      Date d = new SimpleDateFormat("yyyy-MM-dd").parse(String.valueOf(date.getText()));
+        Date d = new SimpleDateFormat("yyyy-MM-dd").parse(String.valueOf(date.getText()));
 
         return new Reise(vorname, nachname, destination, preis, datum);
     }
 
 
-    public String showPreise(){
+    public String showPreise() {
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-              int ergebnis = new SQL_Persistence().getPreise();
-              double ergebnis2 = new SQL_Persistence().gaRelation();
+                int ergebnis = new SQL_Persistence().getPreise();
+                double ergebnis2 = new SQL_Persistence().gaRelation();
 
                 area.setText(String.valueOf(ergebnis));
                 value.setText(String.valueOf(ergebnis2));
@@ -156,13 +151,34 @@ public class GUI extends JFrame{
         return null;
     }
 
-    public String showReise(){
+    public String showReise() {
         b3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Reise> ergebnis = new SQL_Persistence().getReise();
 
-                reisen.setText(String.valueOf(ergebnis));
+                reisen.setText(String.valueOf(ergebnis).replace("[", "").replace("]", "").replace(",", ""));
+            }
+        });
+        return null;
+    }
+
+    public String getSelectedPrice() {
+
+        desti.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Object selectedItem = desti.getSelectedItem();
+                if ("Zürich".equals(selectedItem)) {
+                    preis.setText("80");
+
+                } else if ("Bern".equals(selectedItem)) {
+                    preis.setText("100");
+
+                } else if ("Chur".equals(selectedItem)) {
+                    preis.setText("50");
+                }
             }
         });
         return null;

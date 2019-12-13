@@ -8,6 +8,21 @@ CREATE table if not exists calculator.reise
     vorname varchar(50),
     nachname varchar(50),
     destination VARCHAR(50),
-    preis int
+    preis int,
+    datum date
 );
 
+
+INSERT into calculator.reise
+
+(vorname, nachname, destination, preis, datum)
+
+VALUES
+
+('Roberto', 'Salerno', 'Bern', 100, '2019-01-01'),
+('Sebi', 'Rüegg', 'Zürich', 50, '2019-02-04'),
+('Susi', 'Sorglos', 'Zürich', 50, '2019-07-12'),
+('Max', 'Mueller', 'Genf', 150, '2019-07-01'),
+('Thomas', 'Ruefenacht', 'Olten', 70, '2019-08-04'),
+('Stefan', 'Sutter', 'Lausanne', 120, '2019-11-05'),
+('Selina', 'Amsler', 'Sion', 90, '2019-03-18')
