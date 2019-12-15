@@ -16,15 +16,15 @@ public class SQL_Persistence {
     int sum = 0;
 
 
-    public void setTrip(Reise trip) {
+    public void setTrip(String destination, String preis, String datum) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(databse, user, password);
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
-                stat.executeUpdate("INSERT INTO calculator.reise(vorname, nachname, destination, preis, datum) " +
-                        "VALUES('"+trip.vorname+"','"+trip.nachname+"','"+trip.destination+"','"+trip.preis+"','"+trip.datum+"')");
+                stat.executeUpdate("INSERT INTO calculator.reise(destination, preis, datum) " +
+                        "VALUES('"+destination+"','"+preis+"','"+datum+"')");
             }
         } catch (ClassNotFoundException ex) {
             System.out.println("Datenbank nicht gefunden");
@@ -49,7 +49,6 @@ public class SQL_Persistence {
 
        ArrayList<Reise> al = new ArrayList<>();
 
-
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(databse, user, password);
@@ -59,8 +58,6 @@ public class SQL_Persistence {
                 ResultSet x = stat.executeQuery("SELECT * FROM calculator.reise");
                 while (x.next()){
                     Reise k1 = new Reise(
-                            x.getString("nachname"),
-                            x.getString("vorname"),
                             x.getString("destination"),
                             x.getString("preis"),
                             x.getString("datum")

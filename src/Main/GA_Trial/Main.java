@@ -1,12 +1,10 @@
 package GA_Trial;
 
-public class Main {
+public class Main extends GUI{
 
 
     public static void main(String[] args) {
 
-        GUI g = new GUI();
-        g.GUI();
 
 
 
