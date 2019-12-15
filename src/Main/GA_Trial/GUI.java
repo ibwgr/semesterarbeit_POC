@@ -6,11 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class GUI extends JFrame {
@@ -98,7 +95,6 @@ public class GUI extends JFrame {
         p.add(image);
         preis.setText("50");
 
-        enterTrip();
         showReise();
 
         addWindowListener(new WindowAdapter() {
@@ -110,31 +106,18 @@ public class GUI extends JFrame {
     }
 
 
-    public void enterTrip() {
-        b1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+//    public void enterTrip() {
+//        b1.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//
+//
+//                new SQL_Persistence().setTrip();
+//            }
+//        });
+//    }
 
-                Reise trip = null;
-                try {
-                    trip = validateInput(vorname.getText(), nachname.getText(), (String) desti.getSelectedItem(), preis.getText(), date.getText());
-                } catch (ParseException ex) {
-                    ex.printStackTrace();
-                }
 
-                new SQL_Persistence().setTrip(trip);
-            }
-        });
-    }
-
-    private Reise validateInput(String vorname, String nachname, String destination, String preis, String datum) throws ParseException {
-
-        //DatumValidirung noch erfassen inkl. Fehlermeldung
-
-        Date d = new SimpleDateFormat("yyyy-MM-dd").parse(String.valueOf(date.getText()));
-
-        return new Reise(vorname, nachname, destination, preis, datum);
-    }
 
 
     public String showPreise() {
