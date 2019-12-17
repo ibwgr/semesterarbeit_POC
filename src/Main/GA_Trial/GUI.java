@@ -11,7 +11,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
+import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
@@ -75,26 +77,55 @@ public class GUI extends Application {
 
         Label datumsfeld = new Label("Reisedatum");
 
-        LocalDate ld = LocalDate.now();
-        TextField date = new TextField();
+//        LocalDate ld = LocalDate.now();
+//        TextField date = new TextField();
 
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
-        String datumformatiert = dateFormat.format(ld);
-        date.setText(datumformatiert);
+//        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
+//        String datumformatiert = dateFormat.format(ld);
+//        date.setText(datumformatiert);
 
+        // Datepicker
+        DatePicker datePicker = new DatePicker();
+        datePicker.setValue(LocalDate.now());
+        datePicker.setShowWeekNumbers(false);
+        // Converter für Datepicker
+        StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
+            @Override
+            public String toString(LocalDate date) {
+                if (date != null){
+                    return dateFormatter.format(date);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()){
+                    return LocalDate.parse(string, dateFormatter);
+                }else {
+                    return null;
+                }
+            }
+        };
+        datePicker.setConverter(converter);
+        datePicker.setPromptText("dd-MMM-yyyy");
 
         gp.add(reisekosten, 1, 0);
         gp.add(price, 1, 1);
 
         gp.add(datumsfeld, 2, 0);
-        gp.add(date, 2, 1);
+//        gp.add(date, 2, 1);
+        gp.add(datePicker, 2, 1);
 
         Button enterReise = new Button("Reise erfassen");
         enterReise.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
 
-                new SQL_Persistence().setTrip((String) cb.getSelectionModel().getSelectedItem(), price.getText(), date.getText());
+//                new SQL_Persistence().setTrip((String) cb.getSelectionModel().getSelectedItem(), price.getText(), date.getText());
+                new SQL_Persistence().setTrip((String) cb.getSelectionModel().getSelectedItem(), price.getText(), datePicker.getValue().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy")));
             }
         });
 
