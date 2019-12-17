@@ -164,6 +164,7 @@ public class SQL_Persistence extends GUI{
         String a =  monat;
         String r = "SELECT * FROM calculator.reise where datum LIKE '"+a+"'";
 
+
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(databse, user, password);
@@ -198,7 +199,45 @@ public class SQL_Persistence extends GUI{
         }
 
         System.out.print(al);
+
         return al;
+    }
+
+
+    public int getPricePerMonth(String monat) {
+
+        String a =  monat;
+        String r = "SELECT * FROM calculator.reise where datum LIKE '"+a+"'";
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection(databse, user, password);
+            if (con != null) {
+                System.out.println("verbindung hergestellt");
+                Statement stat = con.createStatement();
+                ResultSet x = stat.executeQuery(r);
+
+                while (x.next()){
+                    int c = x.getInt("preis");
+                    sum = sum + c;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Datenbank nicht gefunden");
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            System.out.println("Ein Fehler ist aufgetreten");
+            ex.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return sum;
     }
 }
 

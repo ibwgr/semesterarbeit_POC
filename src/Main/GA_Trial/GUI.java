@@ -13,7 +13,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
@@ -38,7 +37,7 @@ public class GUI extends Application {
 
         Label monat = new Label("Monat");
         ChoiceBox cb2 = new ChoiceBox(FXCollections.observableArrayList());
-        cb2.getItems().addAll("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember");
+        cb2.getItems().addAll("Alle", "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember");
         cb2.getSelectionModel().selectFirst();
 
         primaryStage.setScene(new Scene(gp, 1000, 400));
@@ -54,6 +53,7 @@ public class GUI extends Application {
 
         TextArea tripReport = new TextArea();
         tripReport.setMaxSize(300, 1000);
+
 
         Label preisSum = new Label("Total Reisekosten");
         TextField sum = new TextField();
@@ -189,6 +189,7 @@ public class GUI extends Application {
         });
 
 
+
         cb2.setOnAction(new EventHandler<ActionEvent>() {
 
 
@@ -196,59 +197,87 @@ public class GUI extends Application {
             public void handle(ActionEvent event) {
                 Object selectedItem = cb2.getSelectionModel().getSelectedItem();
 
+
                 if ("Januar".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Jan%");
+                    int pp = new SQL_Persistence().getPricePerMonth("%Jan%");
+
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
+                    sum.setText(String.valueOf(pp));
 
                 }else if ("Februar".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Feb%");
+                    int pp = new SQL_Persistence().getPricePerMonth("%Feb%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
+                    sum.setText(String.valueOf(pp));
 
                 }else if ("März".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Mar%");
+                    int pp = new SQL_Persistence().getPricePerMonth("%Mar%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
+                    sum.setText(String.valueOf(pp));
 
                 }else if ("April".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Apr%");
+                    int pp = new SQL_Persistence().getPricePerMonth("%Apr%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
+                    sum.setText(String.valueOf(pp));
 
                 }else if ("Mai".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Mai%");
+                    int pp = new SQL_Persistence().getPricePerMonth("%Mai%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-
+                    sum.setText(String.valueOf(pp));
 
                 }else if ("Juni".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Jun%");
+                    int pp = new SQL_Persistence().getPricePerMonth("%Jun%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-
+                    sum.setText(String.valueOf(pp));
 
                 }else if ("Juli".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Jul%");
+                    int pp = new SQL_Persistence().getPricePerMonth("%Jul%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
+                    sum.setText(String.valueOf(pp));
 
                 }else if ("August".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Aug%");
+                    int pp = new SQL_Persistence().getPricePerMonth("%Aug%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-
+                    sum.setText(String.valueOf(pp));
 
                 }else if ("September".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Sep%");
+                    int pp = new SQL_Persistence().getPricePerMonth("%Sep%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-
+                    sum.setText(String.valueOf(pp));
 
                 }else if ("Oktober".equals(selectedItem)){
-                    ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Oct%");
+                    ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Okt%");
+                    int pp = new SQL_Persistence().getPricePerMonth("%Okt%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-
+                    sum.setText(String.valueOf(pp));
 
                 }else if ("November".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Nov%");
+                    int pp = new SQL_Persistence().getPricePerMonth("%Nov%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-
+                    sum.setText(String.valueOf(pp));
 
                 }else if ("Dezember".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Dez%");
+                    int pp = new SQL_Persistence().getPricePerMonth("%Dez%");
+
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
+                    sum.setText(String.valueOf(pp));
+
+                }else if ("Alle".equals(selectedItem)){
+                    ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%%");
+                    int pp = new SQL_Persistence().getPricePerMonth("%%");
+
+                    tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
+                    sum.setText(String.valueOf(pp));
                 }
             }
         });

@@ -15,6 +15,11 @@ public class Reise extends GUI{
         this.datum = datum;
     }
 
+    public Reise (String preis){
+        this.preis = preis;
+    }
+
+
 
     @Override
     public String toString() {
