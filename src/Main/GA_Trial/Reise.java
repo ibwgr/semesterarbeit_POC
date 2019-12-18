@@ -1,4 +1,4 @@
-package GA_Trial;
+package Main.GA_Trial;
 
 public class Reise extends GUI{
 
@@ -13,10 +13,6 @@ public class Reise extends GUI{
         this.destination = destination;
         this.preis = preis;
         this.datum = datum;
-    }
-
-    public Reise (String preis){
-        this.preis = preis;
     }
 
 
