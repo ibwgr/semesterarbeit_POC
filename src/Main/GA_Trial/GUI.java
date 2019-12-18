@@ -1,4 +1,4 @@
-package Main.GA_Trial;
+package GA_Trial;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;

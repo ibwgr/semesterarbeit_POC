@@ -1,4 +1,4 @@
-package Main.GA_Trial;
+package GA_Trial;
 
 import java.sql.*;
 import java.util.ArrayList;

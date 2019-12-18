@@ -1,4 +1,4 @@
-package Main.GA_Trial;
+package GA_Trial;
 
 public class Reise extends GUI{
 
