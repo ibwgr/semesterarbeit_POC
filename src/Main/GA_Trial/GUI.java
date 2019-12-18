@@ -200,7 +200,7 @@ public class GUI extends Application {
             gp.add(stackedBarChart, 0, 7);
             gp.add(lineChart, 0, 7);
 
-        Image im = new Image(new FileInputStream("picture/swisscom-logo.png"));
+        Image im = new Image(new FileInputStream("picture/logo.png"));
         ImageView image = new ImageView(im);
         image.setFitHeight(100);
         image.setFitWidth(100);
