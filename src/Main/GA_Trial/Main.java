@@ -1,4 +1,4 @@
-package GA_Trial;
+package Main.GA_Trial;
 
 public class Main extends GUI{
 

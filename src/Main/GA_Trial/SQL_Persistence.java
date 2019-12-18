@@ -1,4 +1,4 @@
-package GA_Trial;
+package Main.GA_Trial;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -239,6 +239,47 @@ public class SQL_Persistence extends GUI{
         }
         return sum;
     }
+
+
+    public int getPriceForChart(String month) {
+
+        String y = month;
+
+        String r = "SELECT * FROM calculator.reise where datum LIKE '"+y+"'";
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection(databse, user, password);
+            if (con != null) {
+                System.out.println("verbindung hergestellt");
+                Statement stat = con.createStatement();
+                ResultSet x = stat.executeQuery(r);
+
+                while (x.next()){
+                    int c = x.getInt("preis");
+                    sum = sum + c;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Datenbank nicht gefunden");
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            System.out.println("Ein Fehler ist aufgetreten");
+            ex.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return sum;
+    }
+
+
+
 }
 
 
