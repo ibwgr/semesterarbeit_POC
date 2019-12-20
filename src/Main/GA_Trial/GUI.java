@@ -2,8 +2,10 @@ package GA_Trial;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Side;
 import javafx.scene.Scene;
@@ -11,7 +13,10 @@ import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import java.io.FileInputStream;
@@ -29,46 +34,101 @@ public class GUI extends Application {
 
     public void start(Stage primaryStage) throws FileNotFoundException {
 
+        // Gridpane
         GridPane gp = new GridPane();
-
-        primaryStage.show();
-        primaryStage.setTitle("GA-Trial");
-
-        primaryStage.setScene(new Scene(gp, 1000, 700));
-        gp.setPadding(new Insets(20, 20, 20, 20));
-
-        Label reiseziel = new Label("Reiseziel");
-        ChoiceBox cb = new ChoiceBox(FXCollections.observableArrayList());
-        cb.getItems().addAll("Chur", "Zürich", "Bern", "Olten");
-        cb.getSelectionModel().selectFirst();
-
-        Label monat = new Label("Monat");
-        ChoiceBox cb2 = new ChoiceBox(FXCollections.observableArrayList());
-        cb2.getItems().addAll("Alle", "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember");
-        cb2.getSelectionModel().selectFirst();
-
-        Label reports = new Label("Reiseauswertungen");
-
-        TextArea tripReport = new TextArea();
-        tripReport.setMaxSize(300, 1000);
-
-        Label preisSum = new Label("Total Reisekosten");
-        TextField sum = new TextField();
-
-        Label reisekosten = new Label("Reisekosten");
-        TextField price = new TextField();
-
-        Label gaRel = new Label("GA in % zu Totalkosten");
-        TextField realation = new TextField();
-
-        Label datumsfeld = new Label("Reisedatum");
-
+        gp.setPadding(new Insets(20));
         gp.setHgap(10);
         gp.setVgap(10);
-        price.setText("50");
 
-        Button showReisen = new Button("Zeige alle Reisen");
-        showReisen.setOnAction(new EventHandler<ActionEvent>() {
+        // Stackpane
+        StackPane stack = new StackPane();
+
+        // Labels
+        Label erfassung = new Label("Erfassung");
+        erfassung.setFont(Font.font("Cambria", 25) );
+        Label startOrt = new Label("Von");
+        Label reiseziel = new Label("Nach");
+        Label reisedatum = new Label("Datum");
+        Label kosten = new Label("Kosten");
+        Label chur = new Label("Chur");
+        Label auswertung = new Label("Auswertung");
+        auswertung.setFont(Font.font("Cambria", 25) );
+        Label preisSum = new Label("Total Reisekosten");
+        Label gaRel = new Label("Preisverhältnis zu GA");
+
+        // Textfelder
+        TextField price = new TextField();
+        TextField kostenTotal = new TextField();
+        TextField relation = new TextField();
+
+        // Textarea
+        TextArea tripReport = new TextArea();
+        gp.setHalignment(tripReport, HPos.RIGHT);
+        tripReport.setMaxSize(375, 300);
+
+
+        // ComboBoxen
+        ComboBox comboBoxZiel = new ComboBox(FXCollections.observableArrayList());
+        ComboBox comboBoxMonat = new ComboBox(FXCollections.observableArrayList());
+
+        //Buttons
+        Button enterReise = new Button("Reise erfassen");
+        gp.setHalignment(enterReise, HPos.RIGHT);
+        Button showMonth = new Button("Zeige Monat");
+        Button showAll = new Button("Zeige alle Reisen");
+
+        // Image
+        Image im = new Image(new FileInputStream("picture/logo.png"));
+        ImageView image = new ImageView(im);
+        image.setFitHeight(50);
+        image.setFitWidth(50);
+
+
+        // DatePicker
+        DatePicker datePicker = new DatePicker();
+
+
+        // Stage
+        BorderPane root = new BorderPane();
+        Scene scene = new Scene(root,675,900);
+        root.setCenter(gp);
+        root.setTop(image);
+        root.setBottom(stack);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("GA-Trial");
+        primaryStage.show();
+
+
+
+        // adds
+        gp.add(erfassung,0,0,2,1);
+        gp.add(startOrt,0,1);
+        gp.add(reiseziel,1,1);
+        gp.add(reisedatum,2,1);
+        gp.add(kosten,3,1);
+        gp.add(chur,0,2);
+        gp.add(auswertung,0,5,2,1);
+        gp.add(preisSum,2,10);
+        gp.add(gaRel,3,10);
+        gp.add(price,3,2);
+        gp.add(kostenTotal,2,11);
+        gp.add(relation,3,11);
+        gp.add(tripReport,2,6,2,4);
+        gp.add(comboBoxZiel,1,2);
+        gp.add(comboBoxMonat,1,6);
+        gp.add(enterReise,3,3);
+        gp.add(showMonth,0,6);
+        gp.add(showAll,0,7);
+        gp.add(datePicker,2,2);
+
+
+
+
+
+
+
+
+        showAll.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 ArrayList<Reise> ergebnis = new SQL_Persistence().getReise();
@@ -77,7 +137,15 @@ public class GUI extends Application {
             }
         });
 
-        DatePicker datePicker = new DatePicker();
+        comboBoxZiel.getItems().addAll("Zürich", "Bern", "Olten");
+        comboBoxZiel.setPromptText("Bitte auswählen");
+
+        comboBoxMonat.getItems().addAll("Alle", "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember");
+        comboBoxMonat.setPromptText("Bitte auswählen");
+
+
+
+
         datePicker.setValue(LocalDate.now());
         datePicker.setShowWeekNumbers(false);
 
@@ -104,12 +172,11 @@ public class GUI extends Application {
         datePicker.setConverter(converter);
         datePicker.setPromptText("dd-MMM-yyyy");
 
-        Button enterReise = new Button("Reise erfassen");
         enterReise.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
 
-                new SQL_Persistence().setTrip((String) cb.getSelectionModel().getSelectedItem(), price.getText(), datePicker.getValue().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy")));
+                new SQL_Persistence().setTrip((String) comboBoxZiel.getSelectionModel().getSelectedItem(), price.getText(), datePicker.getValue().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy")));
             }
         });
 
@@ -193,55 +260,33 @@ public class GUI extends Application {
             lineChart.getXAxis().setVisible(false);
             lineChart.getYAxis().setVisible(false);
             lineChart.setLegendSide(Side.RIGHT);
-
             series2.setName("GA Kosten pro Monat");
             series1.setName("Einzelfahrten");
-
-            gp.add(stackedBarChart, 0, 7);
-            gp.add(lineChart, 0, 7);
-
-        Image im = new Image(new FileInputStream("picture/logo.png"));
-        ImageView image = new ImageView(im);
-        image.setFitHeight(100);
-        image.setFitWidth(100);
-
-        gp.add(reiseziel, 0, 0);
-        gp.add(cb, 0, 1);
-        gp.add(monat, 0,5);
-        gp.add(cb2, 0,6);
-
-        gp.add(enterReise, 3, 1);
-        gp.add(reports, 0, 3);
-        gp.add(tripReport, 0, 4);
-        gp.add(showReisen, 1, 4);
-        gp.add(preisSum, 2, 3);
-        gp.add(sum, 2, 4);
-        gp.add(image, 3, 7);
-        gp.add(gaRel, 3, 3);
-        gp.add(realation, 3, 4);
-        gp.add(reisekosten, 1, 0);
-        gp.add(price, 1, 1);
-        gp.add(datumsfeld, 2, 0);
-        gp.add(datePicker, 2, 1);
+            ObservableList list = stack.getChildren();
+            list.addAll(stackedBarChart,lineChart);
 
 
-        Button sumTotal = new Button("Reisetotal");
-        gp.add(sumTotal, 2, 5);
-        sumTotal.setOnAction(new EventHandler<ActionEvent>() {
+
+
+
+
+
+        //todo kostenrechnung mit reisen verknüpfen
+//        totalKosten.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                int ergebnis = new SQL_Persistence().getPreise();
+//                double ergebnis2 = new SQL_Persistence().gaRelation();
+//
+//                kostenTotal.setText(String.valueOf(ergebnis));
+//                relation.setText(String.valueOf(ergebnis2));
+//            }
+//        });
+
+        comboBoxZiel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                int ergebnis = new SQL_Persistence().getPreise();
-                double ergebnis2 = new SQL_Persistence().gaRelation();
-
-                sum.setText(String.valueOf(ergebnis));
-                realation.setText(String.valueOf(ergebnis2));
-            }
-        });
-
-        cb.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Object selectedItem = cb.getSelectionModel().getSelectedItem();
+                Object selectedItem = comboBoxZiel.getSelectionModel().getSelectedItem();
                 if ("Zürich".equals(selectedItem)) {
                     price.setText("80");
 
@@ -257,91 +302,91 @@ public class GUI extends Application {
             }
         });
 
-        cb2.setOnAction(new EventHandler<ActionEvent>() {
+        comboBoxMonat.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Object selectedItem = cb2.getSelectionModel().getSelectedItem();
+                Object selectedItem = comboBoxMonat.getSelectionModel().getSelectedItem();
 
 
                 if ("Januar".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Jan%");
                     int pp = new SQL_Persistence().getPricePerMonth("%Jan%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-                    sum.setText(String.valueOf(pp));
+                    kostenTotal.setText(String.valueOf(pp));
 
                 }else if ("Februar".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Feb%");
                     int pp = new SQL_Persistence().getPricePerMonth("%Feb%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-                    sum.setText(String.valueOf(pp));
+                    kostenTotal.setText(String.valueOf(pp));
 
                 }else if ("März".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Mar%");
                     int pp = new SQL_Persistence().getPricePerMonth("%Mar%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-                    sum.setText(String.valueOf(pp));
+                    kostenTotal.setText(String.valueOf(pp));
 
                 }else if ("April".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Apr%");
                     int pp = new SQL_Persistence().getPricePerMonth("%Apr%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-                    sum.setText(String.valueOf(pp));
+                    kostenTotal.setText(String.valueOf(pp));
 
                 }else if ("Mai".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Mai%");
                     int pp = new SQL_Persistence().getPricePerMonth("%Mai%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-                    sum.setText(String.valueOf(pp));
+                    kostenTotal.setText(String.valueOf(pp));
 
                 }else if ("Juni".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Jun%");
                     int pp = new SQL_Persistence().getPricePerMonth("%Jun%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-                    sum.setText(String.valueOf(pp));
+                    kostenTotal.setText(String.valueOf(pp));
 
                 }else if ("Juli".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Jul%");
                     int pp = new SQL_Persistence().getPricePerMonth("%Jul%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-                    sum.setText(String.valueOf(pp));
+                    kostenTotal.setText(String.valueOf(pp));
 
                 }else if ("August".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Aug%");
                     int pp = new SQL_Persistence().getPricePerMonth("%Aug%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-                    sum.setText(String.valueOf(pp));
+                    kostenTotal.setText(String.valueOf(pp));
 
                 }else if ("September".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Sep%");
                     int pp = new SQL_Persistence().getPricePerMonth("%Sep%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-                    sum.setText(String.valueOf(pp));
+                    kostenTotal.setText(String.valueOf(pp));
 
                 }else if ("Oktober".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Okt%");
                     int pp = new SQL_Persistence().getPricePerMonth("%Okt%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-                    sum.setText(String.valueOf(pp));
+                    kostenTotal.setText(String.valueOf(pp));
 
                 }else if ("November".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Nov%");
                     int pp = new SQL_Persistence().getPricePerMonth("%Nov%");
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-                    sum.setText(String.valueOf(pp));
+                    kostenTotal.setText(String.valueOf(pp));
 
                 }else if ("Dezember".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%Dez%");
                     int pp = new SQL_Persistence().getPricePerMonth("%Dez%");
 
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-                    sum.setText(String.valueOf(pp));
+                    kostenTotal.setText(String.valueOf(pp));
 
                 }else if ("Alle".equals(selectedItem)){
                     ArrayList<Reise> abc = new SQL_Persistence().getMonthPerTrip("%%");
                     int pp = new SQL_Persistence().getPricePerMonth("%%");
 
                     tripReport.setText(String.valueOf(abc).replace("[", "").replace("]", "").replace(",", ""));
-                    sum.setText(String.valueOf(pp));
+                    kostenTotal.setText(String.valueOf(pp));
                 }
             }
         });
