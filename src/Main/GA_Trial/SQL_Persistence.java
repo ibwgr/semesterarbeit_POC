@@ -120,42 +120,6 @@ public class SQL_Persistence extends GUI{
         return sum;
         }
 
-    public double gaRelation() {
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(databse, user, password);
-            if (con != null) {
-                System.out.println("verbindung hergestellt");
-                Statement stat = con.createStatement();
-                ResultSet x = stat.executeQuery("select preis from calculator.reise;");
-                while (x.next()){
-                    int c = x.getInt("preis");
-                    sum = sum + c;
-                }
-            }
-
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Datenbank nicht gefunden");
-            ex.printStackTrace();
-        } catch (SQLException ex) {
-            System.out.println("Ein Fehler ist aufgetreten");
-            ex.printStackTrace();
-        } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-
-        }
-        double z = Math.round((sum/gaPreis*100) * 100.0) / 100.0;
-        return z;
-    }
-
-
 
     public ArrayList<Reise> getMonthPerTrip(String monat) {
 

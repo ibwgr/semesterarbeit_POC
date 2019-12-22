@@ -16,11 +16,4 @@ public class SQL_Persistence_Test {
         Assertions.assertEquals(b, 0);
     }
 
-    @Test
-    public void testgaRelationDB() throws Exception {
-        SQL_Persistence x = mock(SQL_Persistence.class);
-        double b = x.gaRelation();
-        Assertions.assertEquals(b,0);
-    }
-
 }

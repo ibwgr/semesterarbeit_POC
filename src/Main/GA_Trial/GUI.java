@@ -131,9 +131,9 @@ public class GUI extends Application {
         showAll.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                ArrayList<Reise> ergebnis = new SQL_Persistence().getReise();
-
-                tripReport.setText(String.valueOf(ergebnis).replace("[", "").replace("]", "").replace(",", ""));
+                tripReport.setText(String.valueOf(Calculations.showAll()).replace("[", "").replace("]", "").replace(",", ""));
+                kostenTotal.setText(String.valueOf(Calculations.totalCost()));
+                relation.setText(String.valueOf(Calculations.gaRelation()));
             }
         });
 
@@ -266,22 +266,6 @@ public class GUI extends Application {
             list.addAll(stackedBarChart,lineChart);
 
 
-
-
-
-
-
-        //todo kostenrechnung mit reisen verknüpfen
-//        totalKosten.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                int ergebnis = new SQL_Persistence().getPreise();
-//                double ergebnis2 = new SQL_Persistence().gaRelation();
-//
-//                kostenTotal.setText(String.valueOf(ergebnis));
-//                relation.setText(String.valueOf(ergebnis2));
-//            }
-//        });
 
         comboBoxZiel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
