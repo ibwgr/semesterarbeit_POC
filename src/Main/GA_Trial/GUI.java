@@ -131,9 +131,9 @@ public class GUI extends Application {
         showAll.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                tripReport.setText(String.valueOf(Calculations.showAll()).replace("[", "").replace("]", "").replace(",", ""));
+                tripReport.setText(String.valueOf(Calculations.showAll()).replace("[", " ").replace("]", "").replace(",", ""));
                 kostenTotal.setText(String.valueOf(Calculations.totalCost()));
-                relation.setText(String.valueOf(Calculations.gaRelation()));
+                relation.setText(String.valueOf(Calculations.gaRelation()+"%"));
             }
         });
 

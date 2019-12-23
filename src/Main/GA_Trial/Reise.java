@@ -19,6 +19,6 @@ public class Reise extends GUI{
 
     @Override
     public String toString() {
-        return datum + " " + destination + " " + "CHF " + preis + ".-\n";
+        return datum + "\t\t" + destination + "\t\t\t" + "CHF " + preis + ".-\n";
     }
 }
