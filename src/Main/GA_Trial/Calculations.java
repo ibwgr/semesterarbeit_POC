@@ -23,9 +23,9 @@ public class Calculations {
         return totalCost;
     }
 
-    public static double gaRelation(){
+    public static int gaRelation(){
         int sum = new SQL_Persistence().getPreise();
-        double gaRelation = Math.round((sum/GAPreis*100) * 100.0) / 100.0;
+        int gaRelation = (int)(sum*100/GAPreis)-100;
         return gaRelation;
     }
 }
