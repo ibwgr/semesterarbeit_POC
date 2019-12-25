@@ -1,6 +1,5 @@
 package GA_Trial;
 
-import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,11 +12,7 @@ public class SQL_Persistence extends GUI{
     Connection con = null;
     String user = "java";
     String password = "java";
-    DataSource ds;
 
-    public SQL_Persistence(DataSource ds) {
-        super();
-    }
 
     public SQL_Persistence() { }
 

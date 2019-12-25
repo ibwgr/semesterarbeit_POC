@@ -111,6 +111,10 @@ public class GUI extends Application {
         preis.setCellValueFactory(new PropertyValueFactory<>("preis"));
         datum.setCellValueFactory(new PropertyValueFactory<>("datum"));
 
+        destination.setMinWidth(100);
+        preis.setMinWidth(100);
+        datum.setMinWidth(100);
+
 
         reiseTable.getColumns().addAll(destination, preis, datum);
 
@@ -139,15 +143,24 @@ public class GUI extends Application {
         gp.add(showAll,0,7);
         gp.add(datePicker,2,2);
 
-
-        ObservableList<Reise> data = FXCollections.observableArrayList(
-                new SQL_Persistence().getReise()
-        );
-        showAll.setOnAction(new EventHandler<ActionEvent>() {
+        enterReise.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+
+                new SQL_Persistence().setTrip((String) comboBoxZiel.getSelectionModel().getSelectedItem(), price.getText(), datePicker.getValue());
+            }
+        });
+
+
+
+        showAll.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+
+                ObservableList<Reise> data = FXCollections.observableArrayList(new SQL_Persistence().getReise());
                 kostenTotal.setText(String.valueOf(Calculations.totalCost()));
-                relation.setText(String.valueOf(Calculations.gaRelation()+"%"));
+                relation.setText(Calculations.gaRelation() + "%");
                 reiseTable.setItems(data);
             }
         });
@@ -187,13 +200,7 @@ public class GUI extends Application {
         datePicker.setConverter(converter);
         datePicker.setPromptText("dd-MMM-yyyy");
 
-        enterReise.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
 
-                new SQL_Persistence().setTrip((String) comboBoxZiel.getSelectionModel().getSelectedItem(), price.getText(), datePicker.getValue());
-            }
-        });
 
             CategoryAxis xAxis = new CategoryAxis();
             xAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList
@@ -222,7 +229,7 @@ public class GUI extends Application {
             final StackedBarChart<String, Number> stackedBarChart = new StackedBarChart<>(xAxis, yAxis);
             XYChart.Series<String, Number> series1 = new XYChart.Series<>();
 
-            int jan = new SQL_Persistence().getPriceForChart("%Jan%");
+            int jan = new SQL_Persistence().getPriceForChart("%01%");
             series1.getData().add(new XYChart.Data<>("Jan", jan));
 
             int feb = new SQL_Persistence().getPriceForChart("%Feb%");
