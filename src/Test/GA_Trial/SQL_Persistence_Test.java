@@ -6,8 +6,12 @@ import org.junit.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.cglib.core.Local;
+
 import javax.sql.DataSource;
 import java.sql.*;
+import java.time.LocalDate;
+
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -31,7 +35,7 @@ public class SQL_Persistence_Test  {
             when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockStatement);
             when(ds.getConnection()).thenReturn(mockConnection);
 
-            r = new Reise("Bern", "100", "23-12-2019");
+            r = new Reise("Bern", "100", LocalDate.of(2019,12,23));
 
             when(rs.first()).thenReturn(true);
             when(rs.getString(1)).thenReturn("Bern");
@@ -43,7 +47,7 @@ public class SQL_Persistence_Test  {
 
    @Test
     public void shouldTestSetTrip() {
-        new SQL_Persistence().setTrip("Bern", "100", "23-12-2019");
+        new SQL_Persistence().setTrip("Bern", "100", LocalDate.of(2019,12, 19));
     }
 
     @Test
@@ -101,7 +105,7 @@ public class SQL_Persistence_Test  {
     public void shouldTestSetTripSQLException(){
 
         try {
-            new SQL_Persistence().setTrip("Bern", "100" ,"23-12-2019");
+            new SQL_Persistence().setTrip("Bern", "100" , LocalDate.of(2910,12,24));
             Class.forName("com.mysql.jdbc.Driver");
             mockConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/calculator", "hallo", "hallo");
         } catch (ClassNotFoundException ex) {

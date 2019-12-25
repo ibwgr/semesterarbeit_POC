@@ -2,6 +2,7 @@ package GA_Trial;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 
@@ -37,7 +38,7 @@ public class SQL_Persistence extends GUI{
 
 
 
-    public void setTrip(String destination, String preis, String datum) {
+    public void setTrip(String destination, String preis, LocalDate datum) {
         try {
             DBConnection();
             if (con != null) {
@@ -76,7 +77,7 @@ public class SQL_Persistence extends GUI{
                     Reise k1 = new Reise(
                             x.getString("destination"),
                             x.getString("preis"),
-                            x.getString("datum")
+                            x.getDate("datum").toLocalDate()
                     );
                     al.add(k1);
                 }
@@ -133,7 +134,7 @@ public class SQL_Persistence extends GUI{
         ArrayList<Reise> al = new ArrayList<>();
 
         String a =  monat;
-        String r = "SELECT * FROM calculator.reise where datum LIKE '"+a+"'";
+        String r = "SELECT * FROM calculator.reise where datum LIKE '"+a+"' ORDER BY datum";
 
 
         try {
@@ -147,7 +148,7 @@ public class SQL_Persistence extends GUI{
                     Reise k1 = new Reise(
                             x.getString("destination"),
                             x.getString("preis"),
-                            x.getString("datum")
+                            x.getDate("datum").toLocalDate()
                     );
                     al.add(k1);
                 }

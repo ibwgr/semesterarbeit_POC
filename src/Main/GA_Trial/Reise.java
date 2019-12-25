@@ -1,14 +1,17 @@
 package GA_Trial;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public class Reise extends GUI{
 
     public String destination;
     public String preis;
-    public String datum;
+    public LocalDate datum;
 
 
 
-    public Reise( String destination, String preis, String datum) {
+    public Reise( String destination, String preis, LocalDate datum) {
 
         this.destination = destination;
         this.preis = preis;
@@ -23,7 +26,7 @@ public class Reise extends GUI{
         return preis;
     }
 
-    public String getDatum() {
+    public LocalDate getDatum() {
         return datum;
     }
 
@@ -35,7 +38,7 @@ public class Reise extends GUI{
         this.preis = preis;
     }
 
-    public void setDatum(String datum) {
+    public void setDatum(LocalDate datum) {
         this.datum = datum;
     }
 

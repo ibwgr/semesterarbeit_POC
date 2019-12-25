@@ -7,7 +7,7 @@ CREATE table if not exists calculator.reise
     nr int not null AUTO_INCREMENT primary key,
     destination VARCHAR(50),
     preis int,
-    datum DATE;
+    datum DATE
 );
 
 
@@ -17,10 +17,10 @@ INSERT into calculator.reise
 
 VALUES
 
-('Bern', 100, '15-Dez-2019'),
-('Zürich', 50, '08-Apr-2019'),
-('Zürich', 50, '22-Feb-2019'),
-('Genf', 150, '04-Aug-2019'),
-('Olten', 70, '01-Jan-2019'),
-('Lausanne', 120, '19-Dez-2019'),
-('Sion', 90, '06-Nov-2019')
+('Bern', 100, '2019-12-19'),
+('Zürich', 50, '2019-04-08'),
+('Zürich', 50, '2019-02-22'),
+('Bern', 100, '2019-08-04'),
+('Olten', 70, '2019-01-01'),
+('Olten', 70, '2019-12-15'),
+('Bern', 100, '2019-11-06')
