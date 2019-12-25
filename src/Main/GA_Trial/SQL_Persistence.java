@@ -1,36 +1,51 @@
 package GA_Trial;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 
 
 public class SQL_Persistence extends GUI{
 
-
+    int sum = 0;
     String databse = "jdbc:mysql://localhost:3306/calculator";
     Connection con = null;
     String user = "java";
     String password = "java";
+    DataSource ds;
+
+    public SQL_Persistence(DataSource ds) {
+        super();
+    }
+
+    public SQL_Persistence() { }
 
 
+    public void DBConnection() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection(databse, user, password);
+        }catch (SQLException ex){
+            System.out.println("Ein Fehler ist aufgetreten");
+            ex.printStackTrace();
 
-    public final double gaPreis = 5000;
-    int sum = 0;
+        }catch (ClassNotFoundException ex){
+            System.out.println("Datenbank nicht gefunden");
+            ex.printStackTrace();
+        }
+    }
+
 
 
     public void setTrip(String destination, String preis, String datum) {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(databse, user, password);
+            DBConnection();
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
                 stat.executeUpdate("INSERT INTO calculator.reise(destination, preis, datum) " +
                         "VALUES('"+destination+"','"+preis+"','"+datum+"')");
             }
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Datenbank nicht gefunden");
-            ex.printStackTrace();
         } catch (SQLException ex) {
             System.out.println("Ein Fehler ist aufgetreten");
             ex.printStackTrace();
@@ -52,12 +67,11 @@ public class SQL_Persistence extends GUI{
        ArrayList<Reise> al = new ArrayList<>();
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(databse, user, password);
+            DBConnection();
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
-                ResultSet x = stat.executeQuery("SELECT * FROM calculator.reise");
+                ResultSet x = stat.executeQuery("SELECT * FROM calculator.reise ORDER BY datum");
                 while (x.next()){
                     Reise k1 = new Reise(
                             x.getString("destination"),
@@ -67,12 +81,9 @@ public class SQL_Persistence extends GUI{
                     al.add(k1);
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Datenbank nicht gefunden");
-            ex.printStackTrace();
         } catch (SQLException ex) {
-            System.out.println("Ein Fehler ist aufgetreten");
-            ex.printStackTrace();
+                System.out.println("Ein Fehler ist aufgetreten");
+                ex.printStackTrace();
         } finally {
             if (con != null) {
                 try {
@@ -90,8 +101,7 @@ public class SQL_Persistence extends GUI{
     public int getPreise() {
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(databse, user, password);
+            DBConnection();
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
@@ -101,9 +111,6 @@ public class SQL_Persistence extends GUI{
                     sum = sum + c;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Datenbank nicht gefunden");
-            ex.printStackTrace();
         } catch (SQLException ex) {
             System.out.println("Ein Fehler ist aufgetreten");
             ex.printStackTrace();
@@ -116,9 +123,9 @@ public class SQL_Persistence extends GUI{
                 }
             }
         }
-            System.out.println(sum);
+        System.out.println(sum);
         return sum;
-        }
+    }
 
 
     public ArrayList<Reise> getMonthPerTrip(String monat) {
@@ -130,8 +137,7 @@ public class SQL_Persistence extends GUI{
 
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(databse, user, password);
+            DBConnection();
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
@@ -146,9 +152,6 @@ public class SQL_Persistence extends GUI{
                     al.add(k1);
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Datenbank nicht gefunden");
-            ex.printStackTrace();
         } catch (SQLException ex) {
             System.out.println("Ein Fehler ist aufgetreten");
             ex.printStackTrace();
@@ -161,9 +164,7 @@ public class SQL_Persistence extends GUI{
                 }
             }
         }
-
         System.out.print(al);
-
         return al;
     }
 
@@ -174,8 +175,7 @@ public class SQL_Persistence extends GUI{
         String r = "SELECT * FROM calculator.reise where datum LIKE '"+a+"'";
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(databse, user, password);
+            DBConnection();
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
@@ -186,9 +186,6 @@ public class SQL_Persistence extends GUI{
                     sum = sum + c;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Datenbank nicht gefunden");
-            ex.printStackTrace();
         } catch (SQLException ex) {
             System.out.println("Ein Fehler ist aufgetreten");
             ex.printStackTrace();
@@ -212,8 +209,7 @@ public class SQL_Persistence extends GUI{
         String r = "SELECT * FROM calculator.reise where datum LIKE '"+y+"'";
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(databse, user, password);
+            DBConnection();
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
@@ -224,9 +220,6 @@ public class SQL_Persistence extends GUI{
                     sum = sum + c;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Datenbank nicht gefunden");
-            ex.printStackTrace();
         } catch (SQLException ex) {
             System.out.println("Ein Fehler ist aufgetreten");
             ex.printStackTrace();
@@ -241,9 +234,6 @@ public class SQL_Persistence extends GUI{
         }
         return sum;
     }
-
-
-
 }
 
 
