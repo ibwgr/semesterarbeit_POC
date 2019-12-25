@@ -15,7 +15,29 @@ public class Reise extends GUI{
         this.datum = datum;
     }
 
+    public String getDestination() {
+        return destination;
+    }
 
+    public String getPreis() {
+        return preis;
+    }
+
+    public String getDatum() {
+        return datum;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public void setPreis(String preis) {
+        this.preis = preis;
+    }
+
+    public void setDatum(String datum) {
+        this.datum = datum;
+    }
 
     @Override
     public String toString() {

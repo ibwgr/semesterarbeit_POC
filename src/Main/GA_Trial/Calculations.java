@@ -1,12 +1,17 @@
 package GA_Trial;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Calculations {
 
+
     public static final double GAPreis = 5000;
+
+    public Calculations(DataSource ds) {
+    }
 
     public static List showAll(){
         ArrayList<Reise> ergebnis = new SQL_Persistence().getReise();

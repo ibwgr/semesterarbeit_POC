@@ -7,7 +7,7 @@ CREATE table if not exists calculator.reise
     nr int not null AUTO_INCREMENT primary key,
     destination VARCHAR(50),
     preis int,
-    datum varchar(50)
+    datum DATE;
 );
 
 
