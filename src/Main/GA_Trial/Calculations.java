@@ -25,7 +25,7 @@ public class Calculations {
 
     public static int gaRelation(){
         int sum = new SQL_Persistence().getPreise();
-        int gaRelation = (int)(Math.round((sum/GAPreis*100) * 100.0) / 100.0)-100;
+        int gaRelation = (int)(sum*100/GAPreis)-100;
         return gaRelation;
     }
 }
