@@ -6,6 +6,15 @@
     -fx-stroke: blue;
 }
 
+.default-color1.chart-series-line{
+    -fx-stroke: red;
+}
+
 .default-color0.chart-line-symbol {
     -fx-background-color: blue, white;
 }
+
+.default-color1.chart-line-symbol {
+    -fx-background-color: red, white;
+}
+

@@ -35,7 +35,6 @@ public class SQL_Persistence extends GUI{
     }
 
 
-
     public void setTrip(String destination, String preis, LocalDate datum) {
         try {
             DBConnection();
@@ -227,12 +226,5 @@ public class SQL_Persistence extends GUI{
                 }
             }
         }
-
     }
 }
-
-
-
-
-
-
