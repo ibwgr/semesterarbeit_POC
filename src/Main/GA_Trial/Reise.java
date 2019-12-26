@@ -1,18 +1,19 @@
 package GA_Trial;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Reise extends GUI{
 
+    public int nr;
     public String destination;
     public String preis;
     public LocalDate datum;
 
 
 
-    public Reise( String destination, String preis, LocalDate datum) {
+    public Reise( int nr, String destination, String preis, LocalDate datum) {
 
+        this.nr = nr;
         this.destination = destination;
         this.preis = preis;
         this.datum = datum;
@@ -42,8 +43,16 @@ public class Reise extends GUI{
         this.datum = datum;
     }
 
+    public int getNr() {
+        return nr;
+    }
+
+    public void setNr(int nr) {
+        this.nr = nr;
+    }
+
     @Override
     public String toString() {
-        return datum + "\t\t" + destination + "\t\t\t" + "CHF " + preis + ".-\n";
+        return nr + "\t\t" + datum + "\t\t" + destination + "\t\t\t" + "CHF " + preis + ".-\n";
     }
 }
