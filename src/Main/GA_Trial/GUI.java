@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -78,6 +79,8 @@ public class GUI extends Application {
         gp.setHalignment(enterReise, HPos.RIGHT);
         Button showMonth = new Button("Zeige Monat");
         Button showAll = new Button("Zeige alle Reisen");
+        Button deleteTrip = new Button("Lösche Reise");
+
 
         // Image
         Image im = new Image(new FileInputStream("picture/logo.png"));
@@ -103,20 +106,23 @@ public class GUI extends Application {
         // Table
         TableView<Reise> reiseTable = new TableView<>();
 
+        TableColumn<Reise, String> number = new TableColumn<>("ID");
         TableColumn<Reise, String> destination= new TableColumn<>("Destination");
         TableColumn<Reise, String> preis = new TableColumn<>("Reisekosten");
         TableColumn<Reise, Locale> datum = new TableColumn<>("Reisedatum");
 
+        number.setCellValueFactory(new PropertyValueFactory<>("nr"));
         destination.setCellValueFactory(new PropertyValueFactory<>("destination"));
         preis.setCellValueFactory(new PropertyValueFactory<>("preis"));
         datum.setCellValueFactory(new PropertyValueFactory<>("datum"));
 
+        number.setMaxWidth(30);
         destination.setMinWidth(100);
         preis.setMinWidth(100);
         datum.setMinWidth(100);
 
 
-        reiseTable.getColumns().addAll(destination, preis, datum);
+        reiseTable.getColumns().addAll(number, destination, preis, datum);
 
 
         reiseTable.minWidth(400);
@@ -142,14 +148,24 @@ public class GUI extends Application {
         gp.add(showMonth,0,6);
         gp.add(showAll,0,7);
         gp.add(datePicker,2,2);
+        gp.add(deleteTrip, 1, 7);
 
-        enterReise.setOnAction(new EventHandler<ActionEvent>() {
+
+
+        deleteTrip.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
 
-                new SQL_Persistence().setTrip((String) comboBoxZiel.getSelectionModel().getSelectedItem(), price.getText(), datePicker.getValue());
+                Reise r = reiseTable.getSelectionModel().getSelectedItem();
+
+                new SQL_Persistence().deleteReise(r.nr);
+                showAll.fire();
+
             }
         });
+
+
+
 
 
 
@@ -157,7 +173,6 @@ public class GUI extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-
                 ObservableList<Reise> data = FXCollections.observableArrayList(new SQL_Persistence().getReise());
                 kostenTotal.setText(String.valueOf(Calculations.totalCost()));
                 relation.setText(Calculations.gaRelation() + "%");
@@ -170,7 +185,6 @@ public class GUI extends Application {
 
         comboBoxMonat.getItems().addAll("Alle", "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember");
         comboBoxMonat.setPromptText("Bitte auswählen");
-
 
 
 
@@ -229,40 +243,41 @@ public class GUI extends Application {
             final StackedBarChart<String, Number> stackedBarChart = new StackedBarChart<>(xAxis, yAxis);
             XYChart.Series<String, Number> series1 = new XYChart.Series<>();
 
-            int jan = new SQL_Persistence().getPriceForChart("%01%");
+            int jan = new SQL_Persistence().getPricePerMonth("%-01-%");
             series1.getData().add(new XYChart.Data<>("Jan", jan));
 
-            int feb = new SQL_Persistence().getPriceForChart("%Feb%");
+
+            int feb = new SQL_Persistence().getPricePerMonth("%-02-%");
             series1.getData().add(new XYChart.Data<>("Feb", feb));
 
-            int mar = new SQL_Persistence().getPriceForChart("%Mär%");
+            int mar = new SQL_Persistence().getPricePerMonth("%-03-%");
             series1.getData().add(new XYChart.Data<>("Mär", mar));
 
-            int apr = new SQL_Persistence().getPriceForChart("%Apr%");
+            int apr = new SQL_Persistence().getPricePerMonth("%-04-%");
             series1.getData().add(new XYChart.Data<>("Apr", apr));
 
-            int mai = new SQL_Persistence().getPriceForChart("%Mai%");
+            int mai = new SQL_Persistence().getPricePerMonth("%-05-%");
             series1.getData().add(new XYChart.Data<>("Mai", mai));
 
-            int jun = new SQL_Persistence().getPriceForChart("%Jun%");
+            int jun = new SQL_Persistence().getPricePerMonth("%-06-%");
             series1.getData().add(new XYChart.Data<>("Jun", jun));
 
-            int jul = new SQL_Persistence().getPriceForChart("%Jul%");
+            int jul = new SQL_Persistence().getPricePerMonth("%-07-%");
             series1.getData().add(new XYChart.Data<>("Jul", jul));
 
-            int aug = new SQL_Persistence().getPriceForChart("%Aug%");
+            int aug = new SQL_Persistence().getPricePerMonth("%-08-%");
             series1.getData().add(new XYChart.Data<>("Aug", aug));
 
-            int sep = new SQL_Persistence().getPriceForChart("%Sep%");
+            int sep = new SQL_Persistence().getPricePerMonth("%-09-%");
             series1.getData().add(new XYChart.Data<>("Sep", sep));
 
-            int okt = new SQL_Persistence().getPriceForChart("%Okt%");
+            int okt = new SQL_Persistence().getPricePerMonth("%-10-%");
             series1.getData().add(new XYChart.Data<>("Okt", okt));
 
-            int nov = new SQL_Persistence().getPriceForChart("%Nov%");
+            int nov = new SQL_Persistence().getPricePerMonth("%-11-%");
             series1.getData().add(new XYChart.Data<>("Nov", nov));
 
-            int dez = new SQL_Persistence().getPriceForChart("%Dez%");
+            int dez = new SQL_Persistence().getPricePerMonth("%-12-%");
             series1.getData().add(new XYChart.Data<>("Dez", dez));
 
 
@@ -288,6 +303,13 @@ public class GUI extends Application {
             list.addAll(stackedBarChart,lineChart);
 
 
+        enterReise.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                new SQL_Persistence().setTrip((String) comboBoxZiel.getSelectionModel().getSelectedItem(), price.getText(), datePicker.getValue());
+                showAll.fire();
+            }
+        });
 
         comboBoxZiel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -307,6 +329,8 @@ public class GUI extends Application {
                 }
             }
         });
+
+        showAll.fire();
 
         comboBoxMonat.setOnAction(new EventHandler<ActionEvent>() {
             @Override

@@ -1,5 +1,8 @@
 package GA_Trial;
 
+import javafx.collections.ObservableList;
+import javafx.scene.control.TablePosition;
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -70,6 +73,7 @@ public class SQL_Persistence extends GUI{
                 ResultSet x = stat.executeQuery("SELECT * FROM calculator.reise ORDER BY datum");
                 while (x.next()){
                     Reise k1 = new Reise(
+                            x.getInt("nr"),
                             x.getString("destination"),
                             x.getString("preis"),
                             x.getDate("datum").toLocalDate()
@@ -141,6 +145,7 @@ public class SQL_Persistence extends GUI{
 
                 while (x.next()){
                     Reise k1 = new Reise(
+                            x.getInt("nr"),
                             x.getString("destination"),
                             x.getString("preis"),
                             x.getDate("datum").toLocalDate()
@@ -198,23 +203,17 @@ public class SQL_Persistence extends GUI{
     }
 
 
-    public int getPriceForChart(String month) {
 
-        String y = month;
+    public void deleteReise(int nr) {
 
-        String r = "SELECT * FROM calculator.reise where datum LIKE '"+y+"'";
+        String r = "DELETE FROM calculator.reise where nr LIKE '"+nr+"'";
 
         try {
             DBConnection();
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
-                ResultSet x = stat.executeQuery(r);
-
-                while (x.next()){
-                    int c = x.getInt("preis");
-                    sum = sum + c;
-                }
+                int x = stat.executeUpdate(r);
             }
         } catch (SQLException ex) {
             System.out.println("Ein Fehler ist aufgetreten");
@@ -228,8 +227,12 @@ public class SQL_Persistence extends GUI{
                 }
             }
         }
-        return sum;
+
     }
 }
+
+
+
+
 
 

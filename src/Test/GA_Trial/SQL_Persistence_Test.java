@@ -35,7 +35,7 @@ public class SQL_Persistence_Test  {
             when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockStatement);
             when(ds.getConnection()).thenReturn(mockConnection);
 
-            r = new Reise("Bern", "100", LocalDate.of(2019,12,23));
+            r = new Reise(1,"Bern", "100", LocalDate.of(2019,12,23));
 
             when(rs.first()).thenReturn(true);
             when(rs.getString(1)).thenReturn("Bern");
@@ -141,13 +141,31 @@ public class SQL_Persistence_Test  {
 
 
     @Test
-    public void shouldTestGetPricePerMonth(){
-        new SQL_Persistence().getPricePerMonth("Dezember");
+    public void shouldTestDeleteTripException() {
+        try {
+            new SQL_Persistence().deleteReise(0);
+            Class.forName("com.mysql.jdbc.Driver");
+            mockConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/calculator", "hallo", "hallo");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Datenbank nicht gefunden");
+
+        } catch (SQLException ex) {
+            System.out.println("Ein Fehler ist aufgetreten");
+        }finally {
+            if (mockConnection != null){
+                try {
+                    mockConnection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
+
     @Test
-    public void shouldTestGetPriceForChart(){
-        new SQL_Persistence().getPriceForChart("Dezember");
+    public void shouldTestGetPricePerMonth(){
+        new SQL_Persistence().getPricePerMonth("Dezember");
     }
 
     @Test
@@ -158,6 +176,11 @@ public class SQL_Persistence_Test  {
     @Test
     public void testGetMonthPerTrip(){
         new SQL_Persistence().getMonthPerTrip("Dezember");
+    }
+
+    @Test
+    public void testDeleteTrip(){
+        new SQL_Persistence().deleteReise(99999);
     }
 
 }
