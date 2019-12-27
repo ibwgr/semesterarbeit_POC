@@ -2,13 +2,17 @@ package GA_Trial;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Calculations {
 
 
-    public static final double GAPreis = 5000;
+    public static double gaPreis = 5265;
+    public static double gaPerMonth = Math.round((gaPreis/12) * 100.0) / 100.0;
+    public static double bern = 127.00;
+    public static double olten = 116.70;
+    public static double zurich = 81.90;
+
 
     public Calculations(DataSource ds) {
     }
@@ -18,14 +22,14 @@ public class Calculations {
         return ergebnis;
     }
 
-    public static int totalCost() {
-        int totalCost = new SQL_Persistence().getPreise();
+    public static double totalCost() {
+        double totalCost = new SQL_Persistence().getPreise();
         return totalCost;
     }
 
     public static int gaRelation(){
-        int sum = new SQL_Persistence().getPreise();
-        int gaRelation = (int)(sum*100/GAPreis)-100;
+        double sum = new SQL_Persistence().getPreise();
+        int gaRelation = (int)(sum*100/ gaPreis)-100;
         return gaRelation;
     }
 }

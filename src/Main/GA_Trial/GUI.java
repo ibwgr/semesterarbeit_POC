@@ -17,28 +17,19 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Locale;
 
 
 public class GUI extends Application {
-
-    public double GAperMonth = 438.75;
 
     @Override
 
@@ -135,12 +126,13 @@ public class GUI extends Application {
             TableColumn<Reise, String> number = new TableColumn<>("ID");
             TableColumn<Reise, String> destination= new TableColumn<>("Destination");
             TableColumn<Reise, String> preis = new TableColumn<>("Reisekosten");
-            TableColumn<Reise, Locale> datum = new TableColumn<>("Reisedatum");
+            TableColumn<Reise, String> datum = new TableColumn<>("Reisedatum");
 
             number.setCellValueFactory(new PropertyValueFactory<>("nr"));
             destination.setCellValueFactory(new PropertyValueFactory<>("destination"));
             preis.setCellValueFactory(new PropertyValueFactory<>("preis"));
-            datum.setCellValueFactory(new PropertyValueFactory<>("datum"));
+//            datum.setCellValueFactory(new PropertyValueFactory<>("datum"));
+            datum.setCellValueFactory(new PropertyValueFactory<>("date"));
 
             number.setMaxWidth(30);
             destination.setMinWidth(100);
@@ -203,7 +195,7 @@ public class GUI extends Application {
         comboBoxZiel.getItems().addAll("Zürich", "Bern", "Olten");
         comboBoxZiel.setPromptText("Bitte auswählen");
 
-        comboBoxMonat.getItems().addAll("Alle", "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember");
+        comboBoxMonat.getItems().addAll("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember", "Alle");
         comboBoxMonat.setPromptText("Bitte auswählen");
 
 
@@ -220,55 +212,55 @@ public class GUI extends Application {
         XYChart.Series<String, Number> series2 = new XYChart.Series<>();
 
 
-        series2.getData().add(new XYChart.Data<>("Jan", GAperMonth));
-        series2.getData().add(new XYChart.Data<>("Feb", GAperMonth));
-        series2.getData().add(new XYChart.Data<>("Mar", GAperMonth));
-        series2.getData().add(new XYChart.Data<>("Apr", GAperMonth));
-        series2.getData().add(new XYChart.Data<>("Mai", GAperMonth));
-        series2.getData().add(new XYChart.Data<>("Jun", GAperMonth));
-        series2.getData().add(new XYChart.Data<>("Jul", GAperMonth));
-        series2.getData().add(new XYChart.Data<>("Aug", GAperMonth));
-        series2.getData().add(new XYChart.Data<>("Sep", GAperMonth));
-        series2.getData().add(new XYChart.Data<>("Okt", GAperMonth));
-        series2.getData().add(new XYChart.Data<>("Nov", GAperMonth));
-        series2.getData().add(new XYChart.Data<>("Dez", GAperMonth));
+        series2.getData().add(new XYChart.Data<>("Jan", Calculations.gaPerMonth));
+        series2.getData().add(new XYChart.Data<>("Feb", Calculations.gaPerMonth));
+        series2.getData().add(new XYChart.Data<>("Mar", Calculations.gaPerMonth));
+        series2.getData().add(new XYChart.Data<>("Apr", Calculations.gaPerMonth));
+        series2.getData().add(new XYChart.Data<>("Mai", Calculations.gaPerMonth));
+        series2.getData().add(new XYChart.Data<>("Jun", Calculations.gaPerMonth));
+        series2.getData().add(new XYChart.Data<>("Jul", Calculations.gaPerMonth));
+        series2.getData().add(new XYChart.Data<>("Aug", Calculations.gaPerMonth));
+        series2.getData().add(new XYChart.Data<>("Sep", Calculations.gaPerMonth));
+        series2.getData().add(new XYChart.Data<>("Okt", Calculations.gaPerMonth));
+        series2.getData().add(new XYChart.Data<>("Nov", Calculations.gaPerMonth));
+        series2.getData().add(new XYChart.Data<>("Dez", Calculations.gaPerMonth));
 
         XYChart.Series<String, Number> series1 = new XYChart.Series<>();
 
-        int jan = new SQL_Persistence().getPricePerMonth("%-01-%");
+        double jan = new SQL_Persistence().getPricePerMonth("%-01-%");
         series1.getData().add(new XYChart.Data<>("Jan", jan));
 
-        int feb = new SQL_Persistence().getPricePerMonth("%-02-%");
+        double feb = new SQL_Persistence().getPricePerMonth("%-02-%");
         series1.getData().add(new XYChart.Data<>("Feb", feb));
 
-        int mar = new SQL_Persistence().getPricePerMonth("%-03-%");
+        double mar = new SQL_Persistence().getPricePerMonth("%-03-%");
         series1.getData().add(new XYChart.Data<>("Mär", mar));
 
-        int apr = new SQL_Persistence().getPricePerMonth("%-04-%");
+        double apr = new SQL_Persistence().getPricePerMonth("%-04-%");
         series1.getData().add(new XYChart.Data<>("Apr", apr));
 
-        int mai = new SQL_Persistence().getPricePerMonth("%-05-%");
+        double mai = new SQL_Persistence().getPricePerMonth("%-05-%");
         series1.getData().add(new XYChart.Data<>("Mai", mai));
 
-        int jun = new SQL_Persistence().getPricePerMonth("%-06-%");
+        double jun = new SQL_Persistence().getPricePerMonth("%-06-%");
         series1.getData().add(new XYChart.Data<>("Jun", jun));
 
-        int jul = new SQL_Persistence().getPricePerMonth("%-07-%");
+        double jul = new SQL_Persistence().getPricePerMonth("%-07-%");
         series1.getData().add(new XYChart.Data<>("Jul", jul));
 
-        int aug = new SQL_Persistence().getPricePerMonth("%-08-%");
+        double aug = new SQL_Persistence().getPricePerMonth("%-08-%");
         series1.getData().add(new XYChart.Data<>("Aug", aug));
 
-        int sep = new SQL_Persistence().getPricePerMonth("%-09-%");
+        double sep = new SQL_Persistence().getPricePerMonth("%-09-%");
         series1.getData().add(new XYChart.Data<>("Sep", sep));
 
-        int okt = new SQL_Persistence().getPricePerMonth("%-10-%");
+        double okt = new SQL_Persistence().getPricePerMonth("%-10-%");
         series1.getData().add(new XYChart.Data<>("Okt", okt));
 
-        int nov = new SQL_Persistence().getPricePerMonth("%-11-%");
+        double nov = new SQL_Persistence().getPricePerMonth("%-11-%");
         series1.getData().add(new XYChart.Data<>("Nov", nov));
 
-        int dez = new SQL_Persistence().getPricePerMonth("%-12-%");
+        double dez = new SQL_Persistence().getPricePerMonth("%-12-%");
         series1.getData().add(new XYChart.Data<>("Dez", dez));
 
 
@@ -303,6 +295,7 @@ public class GUI extends Application {
                 }
             }
         };
+
         datePicker.setConverter(converter);
         datePicker.setPromptText("dd-MMM-yyyy");
 
@@ -329,8 +322,10 @@ public class GUI extends Application {
                     if (price.getText().isEmpty() ||  comboBoxZiel.getSelectionModel().isEmpty()) {
                         price.setText("Reiseziel fehlt!");
 
+
                     }else if (price.getText().matches("[0-9]+")){
-                        new SQL_Persistence().setTrip((String) comboBoxZiel.getSelectionModel().getSelectedItem(), price.getText(), datePicker.getValue());
+                        new SQL_Persistence().setTrip((String) comboBoxZiel.getSelectionModel().getSelectedItem(), Double.valueOf(price.getText()), datePicker.getValue());
+
                         showAll.fire();
 
                     } else {
@@ -345,16 +340,13 @@ public class GUI extends Application {
             public void handle(ActionEvent event) {
                 Object selectedItem = comboBoxZiel.getSelectionModel().getSelectedItem();
                 if ("Zürich".equals(selectedItem)) {
-                    price.setText("80");
+                    price.setText(String.valueOf(Calculations.zurich));
 
                 } else if ("Bern".equals(selectedItem)) {
-                    price.setText("100");
-
-                } else if ("Chur".equals(selectedItem)) {
-                    price.setText("50");
+                    price.setText(String.valueOf(Calculations.bern));
 
                 } else if ("Olten".equals(selectedItem)) {
-                    price.setText("70");
+                    price.setText(String.valueOf(Calculations.olten));
                 }
             }
         });
@@ -368,98 +360,98 @@ public class GUI extends Application {
 
                 if ("Januar".equals(selectedItem)){
                     ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-01-%"));
-                    int pp = new SQL_Persistence().getPricePerMonth("%-01-%");
+                    double pp = new SQL_Persistence().getPricePerMonth("%-01-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.GAPreis/12)-100)+"%"));
+                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
 
 
                 }else if ("Februar".equals(selectedItem)){
                     ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-02-%"));
-                    int pp = new SQL_Persistence().getPricePerMonth("%-02-%");
+                    double pp = new SQL_Persistence().getPricePerMonth("%-02-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.GAPreis/12)-100)+"%"));
+                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
 
 
                 }else if ("März".equals(selectedItem)){
                     ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-03-%"));
-                    int pp = new SQL_Persistence().getPricePerMonth("%-03-%");
+                    double pp = new SQL_Persistence().getPricePerMonth("%-03-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.GAPreis/12)-100)+"%"));
+                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
 
 
                 }else if ("April".equals(selectedItem)){
                     ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-04-%"));
-                    int pp = new SQL_Persistence().getPricePerMonth("%-04-%");
+                    double pp = new SQL_Persistence().getPricePerMonth("%-04-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.GAPreis/12)-100)+"%"));
+                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
 
 
                 }else if ("Mai".equals(selectedItem)){
                     ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-05-%"));
-                    int pp = new SQL_Persistence().getPricePerMonth("%-05-%");
+                    double pp = new SQL_Persistence().getPricePerMonth("%-05-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.GAPreis/12)-100)+"%"));
+                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
 
 
                 }else if ("Juni".equals(selectedItem)){
                     ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-06-%"));
-                    int pp = new SQL_Persistence().getPricePerMonth("%-06-%");
+                    double pp = new SQL_Persistence().getPricePerMonth("%-06-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.GAPreis/12)-100)+"%"));
+                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
 
 
                 }else if ("Juli".equals(selectedItem)){
                     ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-07-%"));
-                    int pp = new SQL_Persistence().getPricePerMonth("%-07-%");
+                    double pp = new SQL_Persistence().getPricePerMonth("%-07-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.GAPreis/12)-100)+"%"));
+                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
 
 
                 }else if ("August".equals(selectedItem)){
                     ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-08-%"));
-                    int pp = new SQL_Persistence().getPricePerMonth("%-08-%");
+                    double pp = new SQL_Persistence().getPricePerMonth("%-08-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.GAPreis/12)-100)+"%"));
+                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
 
 
                 }else if ("September".equals(selectedItem)){
                     ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-09-%"));
-                    int pp = new SQL_Persistence().getPricePerMonth("%-09-%");
+                    double pp = new SQL_Persistence().getPricePerMonth("%-09-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.GAPreis/12)-100)+"%"));
+                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
 
 
                 }else if ("Oktober".equals(selectedItem)){
                     ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-10-%"));
-                    int pp = new SQL_Persistence().getPricePerMonth("%-10-%");
+                    double pp = new SQL_Persistence().getPricePerMonth("%-10-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.GAPreis/12)-100)+"%"));
+                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
 
 
                 }else if ("November".equals(selectedItem)){
                     ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-11-%"));
-                    int pp = new SQL_Persistence().getPricePerMonth("%-11-%");
+                    double pp = new SQL_Persistence().getPricePerMonth("%-11-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.GAPreis/12)-100)+"%"));
+                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
 
 
                 }else if ("Dezember".equals(selectedItem)){
                     ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-12-%"));
-                    int pp = new SQL_Persistence().getPricePerMonth("%-12-%");
+                    double pp = new SQL_Persistence().getPricePerMonth("%-12-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.GAPreis/12)-100)+"%"));
+                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
 
                 }else if ("Alle".equals(selectedItem)){
                     showAll.fire();

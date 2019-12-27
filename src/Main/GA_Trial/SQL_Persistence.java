@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class SQL_Persistence extends GUI{
 
-    int sum = 0;
+    double sum = 0;
     String databse = "jdbc:mysql://localhost:3306/calculator";
     Connection con = null;
     String user = "java";
@@ -35,7 +35,7 @@ public class SQL_Persistence extends GUI{
     }
 
 
-    public void setTrip(String destination, String preis, LocalDate datum) {
+    public void setTrip(String destination, double preis, LocalDate datum) {
         try {
             DBConnection();
             if (con != null) {
@@ -74,7 +74,7 @@ public class SQL_Persistence extends GUI{
                     Reise k1 = new Reise(
                             x.getInt("nr"),
                             x.getString("destination"),
-                            x.getString("preis"),
+                            x.getDouble("preis"),
                             x.getDate("datum").toLocalDate()
                     );
                     al.add(k1);
@@ -97,7 +97,7 @@ public class SQL_Persistence extends GUI{
         return al;
     }
 
-    public int getPreise() {
+    public double getPreise() {
 
         try {
             DBConnection();
@@ -106,7 +106,7 @@ public class SQL_Persistence extends GUI{
                 Statement stat = con.createStatement();
                 ResultSet x = stat.executeQuery("select preis from calculator.reise;");
                 while (x.next()){
-                    int c = x.getInt("preis");
+                    double c = x.getInt("preis");
                     sum = sum + c;
                 }
             }
@@ -146,7 +146,7 @@ public class SQL_Persistence extends GUI{
                     Reise k1 = new Reise(
                             x.getInt("nr"),
                             x.getString("destination"),
-                            x.getString("preis"),
+                            x.getDouble("preis"),
                             x.getDate("datum").toLocalDate()
                     );
                     al.add(k1);
@@ -169,7 +169,7 @@ public class SQL_Persistence extends GUI{
     }
 
 
-    public int getPricePerMonth(String monat) {
+    public double getPricePerMonth(String monat) {
 
         String a =  monat;
         String r = "SELECT * FROM calculator.reise where datum LIKE '"+a+"'";
@@ -182,7 +182,7 @@ public class SQL_Persistence extends GUI{
                 ResultSet x = stat.executeQuery(r);
 
                 while (x.next()){
-                    int c = x.getInt("preis");
+                    double c = x.getInt("preis");
                     sum = sum + c;
                 }
             }

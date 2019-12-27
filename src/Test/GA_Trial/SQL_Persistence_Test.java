@@ -35,7 +35,7 @@ public class SQL_Persistence_Test  {
             when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockStatement);
             when(ds.getConnection()).thenReturn(mockConnection);
 
-            r = new Reise(1,"Bern", "100", LocalDate.of(2019,12,23));
+            r = new Reise(1,"Bern", Double.parseDouble("100"), LocalDate.of(2019,12,23));
 
             when(rs.first()).thenReturn(true);
             when(rs.getString(1)).thenReturn("Bern");
@@ -47,7 +47,7 @@ public class SQL_Persistence_Test  {
 
    @Test
     public void shouldTestSetTrip() {
-        new SQL_Persistence().setTrip("Bern", "100", LocalDate.of(2019,12, 19));
+        new SQL_Persistence().setTrip("Bern", Double.parseDouble("100"), LocalDate.of(2019,12, 19));
     }
 
     @Test
@@ -105,7 +105,7 @@ public class SQL_Persistence_Test  {
     public void shouldTestSetTripSQLException(){
 
         try {
-            new SQL_Persistence().setTrip("Bern", "100" , LocalDate.of(2910,12,24));
+            new SQL_Persistence().setTrip("Bern", Double.parseDouble("100"), LocalDate.of(2910,12,24));
             Class.forName("com.mysql.jdbc.Driver");
             mockConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/calculator", "hallo", "hallo");
         } catch (ClassNotFoundException ex) {
