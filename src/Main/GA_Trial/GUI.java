@@ -17,6 +17,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -66,12 +67,6 @@ public class GUI extends Application {
             TextField relation = new TextField();
             TextField other = new TextField("Erfasse Reiseziel");
 
-            // Textarea
-            TextArea tripReport = new TextArea();
-            gp.setHalignment(tripReport, HPos.RIGHT);
-            tripReport.setMaxSize(375, 300);
-
-
             // ComboBoxen
             ComboBox comboBoxZiel = new ComboBox(FXCollections.observableArrayList());
             ComboBox comboBoxMonat = new ComboBox(FXCollections.observableArrayList());
@@ -86,10 +81,10 @@ public class GUI extends Application {
 
 
            // Image
-            /*Image im = new Image(new FileInputStream("picture/logo.png"));
+            Image im = new Image(new FileInputStream("picture/logo.png"));
             ImageView image = new ImageView(im);
             image.setFitHeight(50);
-            image.setFitWidth(50);*/
+            image.setFitWidth(50);
 
             FileInputStream input = new FileInputStream("picture/logo_Kopie.png");
             Image i = new Image(input);
@@ -108,7 +103,7 @@ public class GUI extends Application {
             BorderPane root = new BorderPane();
             Scene scene = new Scene(root,675,900);
             root.setCenter(gp);
-            //root.setTop(image);
+            root.setTop(image);
             root.setBottom(stack);
             root.setBackground(bg);
 
@@ -132,13 +127,15 @@ public class GUI extends Application {
             number.setCellValueFactory(new PropertyValueFactory<>("nr"));
             destination.setCellValueFactory(new PropertyValueFactory<>("destination"));
             preis.setCellValueFactory(new PropertyValueFactory<>("preis"));
-//            datum.setCellValueFactory(new PropertyValueFactory<>("datum"));
             datum.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-            number.setMaxWidth(30);
+            number.setVisible(false);
             destination.setMinWidth(100);
             preis.setMinWidth(100);
             datum.setMinWidth(100);
+
+            // Verhindert, dass aufgrund vom vorhandenen Platz eine leere Spalte erzeugt wird
+            reiseTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 
             reiseTable.getColumns().addAll(number, destination, preis, datum);
