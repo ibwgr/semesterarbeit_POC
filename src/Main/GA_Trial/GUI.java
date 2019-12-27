@@ -326,11 +326,15 @@ public class GUI extends Application {
             @Override
             public void handle (ActionEvent event) {
 
-                    if (price.getText().isEmpty()) {
+                    if (price.getText().isEmpty() ||  comboBoxZiel.getSelectionModel().isEmpty()) {
                         price.setText("Reiseziel fehlt!");
-                    }else {
+
+                    }else if (price.getText().matches("[0-9]+")){
                         new SQL_Persistence().setTrip((String) comboBoxZiel.getSelectionModel().getSelectedItem(), price.getText(), datePicker.getValue());
                         showAll.fire();
+
+                    } else {
+                        price.setText("Kein gültiger Betrag");
                     }
             }
         });
