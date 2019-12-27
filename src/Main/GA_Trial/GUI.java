@@ -64,6 +64,7 @@ public class GUI extends Application {
             TextField price = new TextField();
             TextField kostenTotal = new TextField();
             TextField relation = new TextField();
+            TextField other = new TextField("Erfasse Reiseziel");
 
             // Textarea
             TextArea tripReport = new TextArea();
@@ -192,7 +193,7 @@ public class GUI extends Application {
             }
         });
 
-        comboBoxZiel.getItems().addAll("Zürich", "Bern", "Olten");
+        comboBoxZiel.getItems().addAll("Zürich", "Bern", "Olten", "Anderer Zielort");
         comboBoxZiel.setPromptText("Bitte auswählen");
 
         comboBoxMonat.getItems().addAll("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember", "Alle");
@@ -319,20 +320,31 @@ public class GUI extends Application {
             @Override
             public void handle (ActionEvent event) {
 
-                    if (price.getText().isEmpty() ||  comboBoxZiel.getSelectionModel().isEmpty()) {
-                        price.setText("Reiseziel fehlt!");
+                if (price.getText().isEmpty() || comboBoxZiel.getSelectionModel().isEmpty()) {
+                    price.setText("Reiseziel fehlt!");
 
 
-                    }else if (price.getText().matches("[0-9]+")){
-                        new SQL_Persistence().setTrip((String) comboBoxZiel.getSelectionModel().getSelectedItem(), Double.valueOf(price.getText()), datePicker.getValue());
+                } else if (other.getText().matches("[a-zA-Z]+")) {
+
+                    try {
+                        new SQL_Persistence().setTrip(other.getText(), Double.valueOf(price.getText()), datePicker.getValue());
 
                         showAll.fire();
-
-                    } else {
+                    }catch (NumberFormatException e){
                         price.setText("Kein gültiger Betrag");
                     }
+
+
+                } else if (price.getText().matches("[0-9, .]+")) {
+                    new SQL_Persistence().setTrip((String) comboBoxZiel.getSelectionModel().getSelectedItem(), Double.valueOf(price.getText()), datePicker.getValue());
+
+                    showAll.fire();
+
+                } else {
+                    price.setText("Kein gültiger Betrag");
+                }
             }
-        });
+        } );
 
 
         comboBoxZiel.setOnAction(new EventHandler<ActionEvent>() {
@@ -341,12 +353,27 @@ public class GUI extends Application {
                 Object selectedItem = comboBoxZiel.getSelectionModel().getSelectedItem();
                 if ("Zürich".equals(selectedItem)) {
                     price.setText(String.valueOf(Calculations.zurich));
+                    other.clear();
+                    other.setVisible(false);
+
 
                 } else if ("Bern".equals(selectedItem)) {
                     price.setText(String.valueOf(Calculations.bern));
+                    other.clear();
+                    other.setVisible(false);
 
                 } else if ("Olten".equals(selectedItem)) {
                     price.setText(String.valueOf(Calculations.olten));
+                    other.clear();
+                    other.setVisible(false);
+
+                }else if ("Anderer Zielort".equals(selectedItem)){
+                    price.setText(String.valueOf(Calculations.andererZielort));
+                    other.setVisible(true);
+                    other.setText("Erfasse Reiseziel");
+                    try {
+                        gp.add(other, 1,3);
+                    }catch (IllegalArgumentException e){ }
                 }
             }
         });

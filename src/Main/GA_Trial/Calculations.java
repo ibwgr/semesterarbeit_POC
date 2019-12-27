@@ -12,6 +12,7 @@ public class Calculations {
     public static double bern = 127.00;
     public static double olten = 116.70;
     public static double zurich = 81.90;
+    public static double andererZielort = 0.00;
 
 
     public Calculations(DataSource ds) {
