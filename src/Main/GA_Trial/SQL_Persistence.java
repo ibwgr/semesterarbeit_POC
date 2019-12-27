@@ -182,7 +182,7 @@ public class SQL_Persistence extends GUI{
                 ResultSet x = stat.executeQuery(r);
 
                 while (x.next()){
-                    double c = x.getInt("preis");
+                    double c = x.getDouble("preis");
                     sum = sum + c;
                 }
             }
