@@ -321,7 +321,7 @@ public class GUI extends Application {
                     price.setText("Reiseziel fehlt!");
 
 
-                } else if (other.getText().matches("[a-zA-Z]+")) {
+                } else if (other.getText().matches("[a-zA-Z, ä,ö,ü,è,à,é,Ä,Ö,Ü]+")) {
 
                     try {
                         new SQL_Persistence().setTrip(other.getText(), Double.valueOf(price.getText()), datePicker.getValue());

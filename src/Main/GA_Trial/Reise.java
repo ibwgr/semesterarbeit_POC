@@ -20,9 +20,6 @@ public class Reise extends GUI{
         this.datum = datum;
     }
 
-//    public Reise(int nr, String bern, String s, LocalDate of) {
-//        super();
-//    }
 
     public String getDestination() {
         return destination;
