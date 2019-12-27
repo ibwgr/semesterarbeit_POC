@@ -1,17 +1,18 @@
 package GA_Trial;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Reise extends GUI{
 
     public int nr;
     public String destination;
-    public String preis;
+    public double preis;
     public LocalDate datum;
 
 
 
-    public Reise( int nr, String destination, String preis, LocalDate datum) {
+    public Reise( int nr, String destination, double preis, LocalDate datum) {
 
         this.nr = nr;
         this.destination = destination;
@@ -19,11 +20,15 @@ public class Reise extends GUI{
         this.datum = datum;
     }
 
+//    public Reise(int nr, String bern, String s, LocalDate of) {
+//        super();
+//    }
+
     public String getDestination() {
         return destination;
     }
 
-    public String getPreis() {
+    public double getPreis() {
         return preis;
     }
 
@@ -31,11 +36,17 @@ public class Reise extends GUI{
         return datum;
     }
 
+    public String getDate(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd. MMM yyyy");
+        String formattedString = datum.format(formatter);
+        return formattedString;
+    }
+
     public void setDestination(String destination) {
         this.destination = destination;
     }
 
-    public void setPreis(String preis) {
+    public void setPreis(double preis) {
         this.preis = preis;
     }
 
@@ -53,6 +64,6 @@ public class Reise extends GUI{
 
     @Override
     public String toString() {
-        return nr + "\t\t" + datum + "\t\t" + destination + "\t\t\t" + "CHF " + preis + ".-\n";
+        return nr + "\t\t" + datum + "\t\t" + destination + "\t\t\t" + "CHF " + preis + "\n";
     }
 }
