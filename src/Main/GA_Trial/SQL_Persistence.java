@@ -1,8 +1,5 @@
 package GA_Trial;
 
-import javafx.collections.ObservableList;
-import javafx.scene.control.TablePosition;
-
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -60,7 +57,7 @@ public class SQL_Persistence extends GUI{
     }
 
 
-    public ArrayList<Reise> getReise() {
+    public ArrayList<Reise> getTrip() {
 
        ArrayList<Reise> al = new ArrayList<>();
 
@@ -92,19 +89,17 @@ public class SQL_Persistence extends GUI{
                 }
             }
         }
-
-        System.out.print(al);
         return al;
     }
 
-    public double getPreise() {
+    public double getPrices() {
 
         try {
             DBConnection();
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
-                ResultSet x = stat.executeQuery("select preis from calculator.reise;");
+                ResultSet x = stat.executeQuery("select preis from calculator.reise");
                 while (x.next()){
                     double c = x.getInt("preis");
                     sum = sum + c;
@@ -122,7 +117,6 @@ public class SQL_Persistence extends GUI{
                 }
             }
         }
-        System.out.println(sum);
         return sum;
     }
 
@@ -202,8 +196,7 @@ public class SQL_Persistence extends GUI{
     }
 
 
-
-    public void deleteReise(int nr) {
+    public void deleteTrip(int nr) {
 
         String r = "DELETE FROM calculator.reise where nr LIKE '"+nr+"'";
 

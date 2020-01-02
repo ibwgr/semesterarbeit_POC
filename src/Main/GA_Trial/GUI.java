@@ -13,7 +13,6 @@ import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -22,7 +21,6 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
@@ -92,7 +90,6 @@ public class GUI extends Application {
 
             BackgroundImage background = new BackgroundImage(i, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
             Background bg = new Background(background);
-
 
 
             // DatePicker
@@ -173,7 +170,7 @@ public class GUI extends Application {
             @Override
             public void handle(ActionEvent event) {
                 Reise r = reiseTable.getSelectionModel().getSelectedItem();
-                new SQL_Persistence().deleteReise(r.nr);
+                new SQL_Persistence().deleteTrip(r.nr);
                 showAll.fire();
             }
         });
@@ -183,7 +180,7 @@ public class GUI extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                ObservableList<Reise> data = FXCollections.observableArrayList(new SQL_Persistence().getReise());
+                ObservableList<Reise> data = FXCollections.observableArrayList(new SQL_Persistence().getTrip());
                 kostenTotal.setText(String.valueOf(Calculations.totalCost()));
                 relation.setText(Calculations.gaRelation() + "%");
                 reiseTable.setItems(data);
@@ -352,7 +349,6 @@ public class GUI extends Application {
                     other.clear();
                     other.setVisible(false);
 
-
                 } else if ("Bern".equals(selectedItem)) {
                     price.setText(String.valueOf(Calculations.bern));
                     other.clear();
@@ -387,7 +383,7 @@ public class GUI extends Application {
                     double pp = new SQL_Persistence().getPricePerMonth("%-01-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
+                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
 
 
                 }else if ("Februar".equals(selectedItem)){
@@ -395,7 +391,7 @@ public class GUI extends Application {
                     double pp = new SQL_Persistence().getPricePerMonth("%-02-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
+                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
 
 
                 }else if ("März".equals(selectedItem)){
@@ -403,7 +399,7 @@ public class GUI extends Application {
                     double pp = new SQL_Persistence().getPricePerMonth("%-03-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
+                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
 
 
                 }else if ("April".equals(selectedItem)){
@@ -411,7 +407,7 @@ public class GUI extends Application {
                     double pp = new SQL_Persistence().getPricePerMonth("%-04-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
+                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
 
 
                 }else if ("Mai".equals(selectedItem)){
@@ -419,7 +415,7 @@ public class GUI extends Application {
                     double pp = new SQL_Persistence().getPricePerMonth("%-05-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
+                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
 
 
                 }else if ("Juni".equals(selectedItem)){
@@ -427,7 +423,7 @@ public class GUI extends Application {
                     double pp = new SQL_Persistence().getPricePerMonth("%-06-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
+                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
 
 
                 }else if ("Juli".equals(selectedItem)){
@@ -435,7 +431,7 @@ public class GUI extends Application {
                     double pp = new SQL_Persistence().getPricePerMonth("%-07-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
+                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
 
 
                 }else if ("August".equals(selectedItem)){
@@ -443,7 +439,7 @@ public class GUI extends Application {
                     double pp = new SQL_Persistence().getPricePerMonth("%-08-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
+                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
 
 
                 }else if ("September".equals(selectedItem)){
@@ -451,7 +447,7 @@ public class GUI extends Application {
                     double pp = new SQL_Persistence().getPricePerMonth("%-09-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
+                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
 
 
                 }else if ("Oktober".equals(selectedItem)){
@@ -459,7 +455,7 @@ public class GUI extends Application {
                     double pp = new SQL_Persistence().getPricePerMonth("%-10-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
+                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
 
 
                 }else if ("November".equals(selectedItem)){
@@ -467,7 +463,7 @@ public class GUI extends Application {
                     double pp = new SQL_Persistence().getPricePerMonth("%-11-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
+                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
 
 
                 }else if ("Dezember".equals(selectedItem)){
@@ -475,7 +471,8 @@ public class GUI extends Application {
                     double pp = new SQL_Persistence().getPricePerMonth("%-12-%");
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText(String.valueOf((int) (pp*100/(Calculations.gaPerMonth)-100)+"%"));
+                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
+
 
                 }else if ("Alle".equals(selectedItem)){
                     showAll.fire();

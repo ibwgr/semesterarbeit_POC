@@ -1,28 +1,15 @@
 package GA_Trial;
 
 import org.junit.Test;
-import org.mockito.Mock;
+import static org.junit.Assert.assertEquals;
 
-import javax.sql.DataSource;
+public class Calculation_Test extends Calculations{
 
-public class Calculation_Test {
-
-    @Mock
-    private DataSource ds;
-
-
-    @Test
-    public void testShowAllCalculation(){
-        new Calculations(ds).showAll();
-    }
-
-    @Test
-    public void testTotalCostCalculation(){
-        new Calculations(ds).totalCost();
-    }
 
     @Test
     public void testGARelationCalculation(){
-        new Calculations(ds).gaRelation();
+        new Calculations().gaRelation(555.0);
+        int gaRelation = (int)(555.0*100/ gaPreis)-100;
+        assertEquals(gaRelation, -90);
+        }
     }
-}

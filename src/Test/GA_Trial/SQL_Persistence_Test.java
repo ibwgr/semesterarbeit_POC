@@ -1,26 +1,21 @@
 package GA_Trial;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.cglib.core.Local;
-
+import org.mockito.MockitoAnnotations;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDate;
+import static org.junit.Assert.assertEquals;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SQL_Persistence_Test  {
 
-    public Reise r;
 
     @InjectMocks SQL_Persistence sql_persistence;
-    @Mock private Connection mockConnection = null;
+    @Mock private Connection mockConnection;
     @Mock private PreparedStatement mockStatement;
     @Mock private DataSource ds;
     @Mock ResultSet rs;
@@ -29,31 +24,21 @@ public class SQL_Persistence_Test  {
 
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() {
 
-        if (mockConnection !=null ){
-            when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockStatement);
-            when(ds.getConnection()).thenReturn(mockConnection);
-
-            r = new Reise(1,"Bern", Double.parseDouble("100"), LocalDate.of(2019,12,23));
-
-            when(rs.first()).thenReturn(true);
-            when(rs.getString(1)).thenReturn("Bern");
-            when(rs.getString(2)).thenReturn("100");
-            when(rs.getString(3)).thenReturn("23-12-2019");
-            when(mockStatement.executeQuery()).thenReturn(rs);
-        }
+        MockitoAnnotations.initMocks(this);
     }
 
-   @Test
-    public void shouldTestSetTrip() {
-        new SQL_Persistence().setTrip("Bern", Double.parseDouble("100"), LocalDate.of(2019,12, 19));
-    }
 
     @Test
-    public void shouldTestGetTrip() {
-        new SQL_Persistence().getReise();
+    public void testSetDatum(){
+        String datum = "19. Dez 2019";
+        Reise reise = new Reise(1, "Bern", Double.parseDouble("100"), LocalDate.of(2019,12, 19));
+        reise.setDatum(LocalDate.of(2019,12,19));
+        String result = reise.getDate();
+        assertEquals(datum, result);
     }
+
 
     @Test
     public void shouldTestDBConnectionSQLException(){
@@ -90,7 +75,7 @@ public class SQL_Persistence_Test  {
     public void shouldTestGetTripSQLException(){
 
         try {
-            new SQL_Persistence().getReise();
+            new SQL_Persistence().getTrip();
             Class.forName("com.mysql.jdbc.Driver");
             mockConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/calculator", "hallo", "hallo");
         } catch (ClassNotFoundException ex) {
@@ -120,7 +105,7 @@ public class SQL_Persistence_Test  {
     @Test
     public void shouldTestCloseConnection() {
         try {
-            new SQL_Persistence().getReise();
+            new SQL_Persistence().getTrip();
             Class.forName("com.mysql.jdbc.Driver");
             mockConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/calculator", "java", "java");
         } catch (ClassNotFoundException ex) {
@@ -143,7 +128,7 @@ public class SQL_Persistence_Test  {
     @Test
     public void shouldTestDeleteTripException() {
         try {
-            new SQL_Persistence().deleteReise(0);
+            new SQL_Persistence().deleteTrip(0);
             Class.forName("com.mysql.jdbc.Driver");
             mockConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/calculator", "hallo", "hallo");
         } catch (ClassNotFoundException ex) {
@@ -161,26 +146,4 @@ public class SQL_Persistence_Test  {
             }
         }
     }
-
-
-    @Test
-    public void shouldTestGetPricePerMonth(){
-        new SQL_Persistence().getPricePerMonth("Dezember");
-    }
-
-    @Test
-    public void testDBConnection(){
-        new SQL_Persistence().DBConnection();
-    }
-
-    @Test
-    public void testGetMonthPerTrip(){
-        new SQL_Persistence().getMonthPerTrip("Dezember");
-    }
-
-    @Test
-    public void testDeleteTrip(){
-        new SQL_Persistence().deleteReise(99999);
-    }
-
 }
