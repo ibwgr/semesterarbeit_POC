@@ -1,27 +1,15 @@
 package GA_Trial;
 
-import com.mysql.cj.result.SqlDateValueFactory;
-import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.cglib.core.Local;
-
 import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 public class SQL_Persistence_Test  {
 
@@ -87,7 +75,7 @@ public class SQL_Persistence_Test  {
     public void shouldTestGetTripSQLException(){
 
         try {
-            new SQL_Persistence().getReise();
+            new SQL_Persistence().getTrip();
             Class.forName("com.mysql.jdbc.Driver");
             mockConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/calculator", "hallo", "hallo");
         } catch (ClassNotFoundException ex) {
@@ -117,7 +105,7 @@ public class SQL_Persistence_Test  {
     @Test
     public void shouldTestCloseConnection() {
         try {
-            new SQL_Persistence().getReise();
+            new SQL_Persistence().getTrip();
             Class.forName("com.mysql.jdbc.Driver");
             mockConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/calculator", "java", "java");
         } catch (ClassNotFoundException ex) {
@@ -140,7 +128,7 @@ public class SQL_Persistence_Test  {
     @Test
     public void shouldTestDeleteTripException() {
         try {
-            new SQL_Persistence().deleteReise(0);
+            new SQL_Persistence().deleteTrip(0);
             Class.forName("com.mysql.jdbc.Driver");
             mockConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/calculator", "hallo", "hallo");
         } catch (ClassNotFoundException ex) {

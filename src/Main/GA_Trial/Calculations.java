@@ -15,24 +15,24 @@ public class Calculations {
 
 
     public static List showAll(){
-        ArrayList<Reise> ergebnis = new SQL_Persistence().getReise();
+        ArrayList<Reise> ergebnis = new SQL_Persistence().getTrip();
         return ergebnis;
     }
 
     public static double totalCost() {
-        double totalCost = new SQL_Persistence().getPreise();
+        double totalCost = new SQL_Persistence().getPrices();
         return totalCost;
     }
 
     public static int gaRelation(){
-        double sum = new SQL_Persistence().getPreise();
+        double sum = new SQL_Persistence().getPrices();
         int gaRelation = (int)(sum*100/ gaPreis)-100;
         return gaRelation;
     }
 
     // method-overloading for unitTesting
     public int gaRelation(double x){
-        x = new SQL_Persistence().getPreise();
+        x = new SQL_Persistence().getPrices();
         int gaRelation = (int)(x*100/ gaPreis)-100;
         return gaRelation;
     }

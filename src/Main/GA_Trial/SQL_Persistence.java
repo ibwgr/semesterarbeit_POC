@@ -57,7 +57,7 @@ public class SQL_Persistence extends GUI{
     }
 
 
-    public ArrayList<Reise> getReise() {
+    public ArrayList<Reise> getTrip() {
 
        ArrayList<Reise> al = new ArrayList<>();
 
@@ -92,7 +92,7 @@ public class SQL_Persistence extends GUI{
         return al;
     }
 
-    public double getPreise() {
+    public double getPrices() {
 
         try {
             DBConnection();
@@ -196,8 +196,7 @@ public class SQL_Persistence extends GUI{
     }
 
 
-
-    public void deleteReise(int nr) {
+    public void deleteTrip(int nr) {
 
         String r = "DELETE FROM calculator.reise where nr LIKE '"+nr+"'";
 

@@ -170,7 +170,7 @@ public class GUI extends Application {
             @Override
             public void handle(ActionEvent event) {
                 Reise r = reiseTable.getSelectionModel().getSelectedItem();
-                new SQL_Persistence().deleteReise(r.nr);
+                new SQL_Persistence().deleteTrip(r.nr);
                 showAll.fire();
             }
         });
@@ -180,7 +180,7 @@ public class GUI extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                ObservableList<Reise> data = FXCollections.observableArrayList(new SQL_Persistence().getReise());
+                ObservableList<Reise> data = FXCollections.observableArrayList(new SQL_Persistence().getTrip());
                 kostenTotal.setText(String.valueOf(Calculations.totalCost()));
                 relation.setText(Calculations.gaRelation() + "%");
                 reiseTable.setItems(data);

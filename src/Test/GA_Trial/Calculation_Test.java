@@ -13,4 +13,3 @@ public class Calculation_Test extends Calculations{
         assertEquals(gaRelation, -90);
         }
     }
-
