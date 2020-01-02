@@ -63,7 +63,7 @@ public class GUI extends Application {
             TextField price = new TextField();
             TextField kostenTotal = new TextField();
             TextField relation = new TextField();
-            TextField other = new TextField("Erfasse Reiseziel");
+            TextField other = new TextField();
 
             // ComboBoxen
             ComboBox comboBoxZiel = new ComboBox(FXCollections.observableArrayList());
@@ -313,29 +313,28 @@ public class GUI extends Application {
         enterReise.setOnAction (new EventHandler<ActionEvent>() {
             @Override
             public void handle (ActionEvent event) {
-
-                if (price.getText().isEmpty() || comboBoxZiel.getSelectionModel().isEmpty()) {
-                    price.setText("Reiseziel fehlt!");
-
-
-                } else if (other.getText().matches("[a-zA-Z, ä,ö,ü,è,à,é,Ä,Ö,Ü]+")) {
-
-                    try {
-                        new SQL_Persistence().setTrip(other.getText(), Double.valueOf(price.getText()), datePicker.getValue());
-
-                        showAll.fire();
-                    }catch (NumberFormatException e){
-                        price.setText("Kein gültiger Betrag");
+                if((String)comboBoxZiel.getSelectionModel().getSelectedItem()=="Anderer Zielort"){
+                    if(other.getText().matches("[a-zA-Z, ä,ö,ü,è,à,é,Ä,Ö,Ü]+")) {
+                        if (price.getText().matches("[0-9, .]+")) {
+                                new SQL_Persistence().setTrip(other.getText(), Double.valueOf(price.getText()), datePicker.getValue());
+                                showAll.fire();
+                        } else {
+                                price.setText("Preis fehlt!");
+                        }
+                    } else {
+                        price.setText("Reiseziel fehlt!");
                     }
-
-
-                } else if (price.getText().matches("[0-9, .]+")) {
-                    new SQL_Persistence().setTrip((String) comboBoxZiel.getSelectionModel().getSelectedItem(), Double.valueOf(price.getText()), datePicker.getValue());
-
-                    showAll.fire();
-
                 } else {
-                    price.setText("Kein gültiger Betrag");
+                    if(price.getText().matches("[0-9, .]+")){
+                    new SQL_Persistence().setTrip((String) comboBoxZiel.getSelectionModel().getSelectedItem(), Double.valueOf(price.getText()), datePicker.getValue());
+                    showAll.fire();
+                    } else {
+                        if (comboBoxZiel.getSelectionModel().isEmpty()){
+                            price.setText("Kein Reiseziel gewählt!");
+                        } else {
+                            price.setText("Kein gültiger Betrag");
+                        }
+                    }
                 }
             }
         } );
@@ -361,9 +360,10 @@ public class GUI extends Application {
                     other.setVisible(false);
 
                 }else if ("Anderer Zielort".equals(selectedItem)){
-                    price.setText(String.valueOf(Calculations.andererZielort));
+                    price.clear();
+                    price.setPromptText("Preis eingeben");
                     other.setVisible(true);
-                    other.setText("Erfasse Reiseziel");
+                    other.setPromptText("Reiseziel");
                     try {
                         gp.add(other, 1,3);
                     }catch (IllegalArgumentException e){ }
