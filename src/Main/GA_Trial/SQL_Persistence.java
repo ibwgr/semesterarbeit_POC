@@ -1,8 +1,5 @@
 package GA_Trial;
 
-import javafx.collections.ObservableList;
-import javafx.scene.control.TablePosition;
-
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -92,8 +89,6 @@ public class SQL_Persistence extends GUI{
                 }
             }
         }
-
-        System.out.print(al);
         return al;
     }
 
@@ -104,7 +99,7 @@ public class SQL_Persistence extends GUI{
             if (con != null) {
                 System.out.println("verbindung hergestellt");
                 Statement stat = con.createStatement();
-                ResultSet x = stat.executeQuery("select preis from calculator.reise;");
+                ResultSet x = stat.executeQuery("select preis from calculator.reise");
                 while (x.next()){
                     double c = x.getInt("preis");
                     sum = sum + c;
@@ -122,7 +117,6 @@ public class SQL_Persistence extends GUI{
                 }
             }
         }
-        System.out.println(sum);
         return sum;
     }
 
