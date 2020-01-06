@@ -72,7 +72,7 @@ public class GUI extends Application {
             //Buttons
             Button enterReise = new Button("Reise erfassen");
             gp.setHalignment(enterReise, HPos.RIGHT);
-            Button showMonth = new Button("Zeige Monat");
+            Button refreshMonth = new Button("Aktualisiere Monat");
             Button showAll = new Button("Zeige alle Reisen");
             Button deleteTrip = new Button("Lösche Reise");
             Button update = new Button("Update Diagramm");
@@ -158,8 +158,8 @@ public class GUI extends Application {
             gp.add(datePicker,2,2);
             gp.add(enterReise,3,3);
 
-            gp.add(showMonth,0,8, 2, 1);
-            gp.add(comboBoxMonat,0,9,3,1);
+            gp.add(refreshMonth,0,9, 3, 1);
+            gp.add(comboBoxMonat,0,8,2,1);
             gp.add(showAll,0,10, 3,1);
             gp.add(deleteTrip, 0, 11, 2, 1);
             gp.add(update, 0,12, 2,1);
@@ -171,7 +171,11 @@ public class GUI extends Application {
             public void handle(ActionEvent event) {
                 Reise r = reiseTable.getSelectionModel().getSelectedItem();
                 new SQL_Persistence().deleteTrip(r.nr);
-                showAll.fire();
+                if(comboBoxMonat.getSelectionModel().isEmpty()){
+                    showAll.fire();
+                }else {
+                    refreshMonth.fire();
+                }
             }
         });
 
@@ -190,8 +194,8 @@ public class GUI extends Application {
         comboBoxZiel.getItems().addAll("Zürich", "Bern", "Olten", "Anderer Zielort");
         comboBoxZiel.setPromptText("Bitte auswählen");
 
-        comboBoxMonat.getItems().addAll("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember", "Alle");
-        comboBoxMonat.setPromptText("Bitte auswählen");
+        comboBoxMonat.getItems().addAll("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember");
+        comboBoxMonat.setPromptText("Monat auswählen");
 
 
         final CategoryAxis xAxis = new CategoryAxis();
@@ -317,7 +321,11 @@ public class GUI extends Application {
                     if(other.getText().matches("[a-zA-Z, ä,ö,ü,è,à,é,Ä,Ö,Ü]+")) {
                         if (price.getText().matches("[0-9, .]+")) {
                                 new SQL_Persistence().setTrip(other.getText(), Double.valueOf(price.getText()), datePicker.getValue());
+                                if(comboBoxMonat.getSelectionModel().isEmpty()){
                                 showAll.fire();
+                                }else {
+                                    refreshMonth.fire();
+                                }
                         } else {
                                 price.setText("Preis fehlt!");
                         }
@@ -327,7 +335,11 @@ public class GUI extends Application {
                 } else {
                     if(price.getText().matches("[0-9, .]+")){
                     new SQL_Persistence().setTrip((String) comboBoxZiel.getSelectionModel().getSelectedItem(), Double.valueOf(price.getText()), datePicker.getValue());
-                    showAll.fire();
+                        if(comboBoxMonat.getSelectionModel().isEmpty()){
+                            showAll.fire();
+                        }else {
+                            refreshMonth.fire();
+                        }
                     } else {
                         if (comboBoxZiel.getSelectionModel().isEmpty()){
                             price.setText("Kein Reiseziel gewählt!");
@@ -371,112 +383,34 @@ public class GUI extends Application {
             }
         });
 
-        showAll.fire();
+        refreshMonth.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    Object selectedItem = comboBoxMonat.getSelectionModel().getSelectedItem();
+                    String month = Calculations.showMonth(selectedItem.toString());
+                    ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip(month));
+                    double pp = new SQL_Persistence().getPricePerMonth(month);
+                    reiseTable.setItems(abc);
+                    kostenTotal.setText(String.valueOf(pp));
+                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
+                } catch (NullPointerException npe){
+                    System.out.println("Kein Monat ausgewählt");
+                    comboBoxMonat.setPromptText("MONAT WÄHLEN!");
+                }
+            }
+        });
 
         comboBoxMonat.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Object selectedItem = comboBoxMonat.getSelectionModel().getSelectedItem();
-
-                if ("Januar".equals(selectedItem)){
-                    ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-01-%"));
-                    double pp = new SQL_Persistence().getPricePerMonth("%-01-%");
+                    String month = Calculations.showMonth(selectedItem.toString());
+                    ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip(month));
+                    double pp = new SQL_Persistence().getPricePerMonth(month);
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
                     relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
-
-
-                }else if ("Februar".equals(selectedItem)){
-                    ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-02-%"));
-                    double pp = new SQL_Persistence().getPricePerMonth("%-02-%");
-                    reiseTable.setItems(abc);
-                    kostenTotal.setText(String.valueOf(pp));
-                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
-
-
-                }else if ("März".equals(selectedItem)){
-                    ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-03-%"));
-                    double pp = new SQL_Persistence().getPricePerMonth("%-03-%");
-                    reiseTable.setItems(abc);
-                    kostenTotal.setText(String.valueOf(pp));
-                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
-
-
-                }else if ("April".equals(selectedItem)){
-                    ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-04-%"));
-                    double pp = new SQL_Persistence().getPricePerMonth("%-04-%");
-                    reiseTable.setItems(abc);
-                    kostenTotal.setText(String.valueOf(pp));
-                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
-
-
-                }else if ("Mai".equals(selectedItem)){
-                    ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-05-%"));
-                    double pp = new SQL_Persistence().getPricePerMonth("%-05-%");
-                    reiseTable.setItems(abc);
-                    kostenTotal.setText(String.valueOf(pp));
-                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
-
-
-                }else if ("Juni".equals(selectedItem)){
-                    ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-06-%"));
-                    double pp = new SQL_Persistence().getPricePerMonth("%-06-%");
-                    reiseTable.setItems(abc);
-                    kostenTotal.setText(String.valueOf(pp));
-                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
-
-
-                }else if ("Juli".equals(selectedItem)){
-                    ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-07-%"));
-                    double pp = new SQL_Persistence().getPricePerMonth("%-07-%");
-                    reiseTable.setItems(abc);
-                    kostenTotal.setText(String.valueOf(pp));
-                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
-
-
-                }else if ("August".equals(selectedItem)){
-                    ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-08-%"));
-                    double pp = new SQL_Persistence().getPricePerMonth("%-08-%");
-                    reiseTable.setItems(abc);
-                    kostenTotal.setText(String.valueOf(pp));
-                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
-
-
-                }else if ("September".equals(selectedItem)){
-                    ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-09-%"));
-                    double pp = new SQL_Persistence().getPricePerMonth("%-09-%");
-                    reiseTable.setItems(abc);
-                    kostenTotal.setText(String.valueOf(pp));
-                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
-
-
-                }else if ("Oktober".equals(selectedItem)){
-                    ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-10-%"));
-                    double pp = new SQL_Persistence().getPricePerMonth("%-10-%");
-                    reiseTable.setItems(abc);
-                    kostenTotal.setText(String.valueOf(pp));
-                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
-
-
-                }else if ("November".equals(selectedItem)){
-                    ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-11-%"));
-                    double pp = new SQL_Persistence().getPricePerMonth("%-11-%");
-                    reiseTable.setItems(abc);
-                    kostenTotal.setText(String.valueOf(pp));
-                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
-
-
-                }else if ("Dezember".equals(selectedItem)){
-                    ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip("%-12-%"));
-                    double pp = new SQL_Persistence().getPricePerMonth("%-12-%");
-                    reiseTable.setItems(abc);
-                    kostenTotal.setText(String.valueOf(pp));
-                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
-
-
-                }else if ("Alle".equals(selectedItem)){
-                    showAll.fire();
-                }
             }
         });
     }
