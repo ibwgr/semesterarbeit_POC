@@ -1,5 +1,8 @@
 package GA_Trial;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,5 +38,51 @@ public class Calculations {
         x = new SQL_Persistence().getPrices();
         int gaRelation = (int)(x*100/ gaPreis)-100;
         return gaRelation;
+    }
+
+    // Methode für Monatsabfrage
+    public static String showMonth (String month){
+        String returnMonth = "";
+        switch (month){
+            case "Januar":
+                returnMonth = "%-01-%";
+                break;
+            case "Februar":
+                returnMonth = "%-02-%";
+                break;
+            case "März":
+                returnMonth = "%-03-%";
+                break;
+            case "April":
+                returnMonth = "%-04-%";
+                break;
+            case "Mai":
+                returnMonth = "%-05-%";
+                break;
+            case "Juni":
+                returnMonth = "%-06-%";
+                break;
+            case "Juli":
+                returnMonth = "%-07-%";
+                break;
+            case "August":
+                returnMonth = "%-08-%";
+                break;
+            case "September":
+                returnMonth = "%-09-%";
+                break;
+            case "Oktober":
+                returnMonth = "%-10-%";
+                break;
+            case "November":
+                returnMonth = "%-11-%";
+                break;
+            case "Dezember":
+                returnMonth = "%-12-%";
+                break;
+            default:
+                break;
+        }
+        return returnMonth;
     }
 }
