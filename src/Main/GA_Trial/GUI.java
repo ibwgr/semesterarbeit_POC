@@ -9,7 +9,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.*;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -25,7 +24,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 
 
 public class GUI extends Application {
@@ -163,7 +161,7 @@ public class GUI extends Application {
             gp.add(showAll,0,10, 3,1);
             gp.add(deleteTrip, 0, 11, 2, 1);
             gp.add(update, 0,12, 2,1);
-
+            gp.add(new Chart_GA().chart(), 0, 22, 4, 1);
 
 
             deleteTrip.setOnAction(new EventHandler<ActionEvent>() {
@@ -193,79 +191,6 @@ public class GUI extends Application {
         comboBoxMonat.getItems().addAll("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember", "Alle");
         comboBoxMonat.setPromptText("Bitte auswählen");
 
-
-        final CategoryAxis xAxis = new CategoryAxis();
-        final NumberAxis yAxis = new NumberAxis(0, 500,50);
-
-        final LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
-
-        xAxis.setCategories(FXCollections .<String>observableArrayList(Arrays.asList
-                ("Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez")));
-
-        yAxis.setLabel("Reisekosten");
-
-        XYChart.Series<String, Number> series2 = new XYChart.Series<>();
-
-
-        series2.getData().add(new XYChart.Data<>("Jan", Calculations.gaPerMonth));
-        series2.getData().add(new XYChart.Data<>("Feb", Calculations.gaPerMonth));
-        series2.getData().add(new XYChart.Data<>("Mar", Calculations.gaPerMonth));
-        series2.getData().add(new XYChart.Data<>("Apr", Calculations.gaPerMonth));
-        series2.getData().add(new XYChart.Data<>("Mai", Calculations.gaPerMonth));
-        series2.getData().add(new XYChart.Data<>("Jun", Calculations.gaPerMonth));
-        series2.getData().add(new XYChart.Data<>("Jul", Calculations.gaPerMonth));
-        series2.getData().add(new XYChart.Data<>("Aug", Calculations.gaPerMonth));
-        series2.getData().add(new XYChart.Data<>("Sep", Calculations.gaPerMonth));
-        series2.getData().add(new XYChart.Data<>("Okt", Calculations.gaPerMonth));
-        series2.getData().add(new XYChart.Data<>("Nov", Calculations.gaPerMonth));
-        series2.getData().add(new XYChart.Data<>("Dez", Calculations.gaPerMonth));
-
-        XYChart.Series<String, Number> series1 = new XYChart.Series<>();
-
-        double jan = new SQL_Persistence().getPricePerMonth("%-01-%");
-        series1.getData().add(new XYChart.Data<>("Jan", jan));
-
-        double feb = new SQL_Persistence().getPricePerMonth("%-02-%");
-        series1.getData().add(new XYChart.Data<>("Feb", feb));
-
-        double mar = new SQL_Persistence().getPricePerMonth("%-03-%");
-        series1.getData().add(new XYChart.Data<>("Mär", mar));
-
-        double apr = new SQL_Persistence().getPricePerMonth("%-04-%");
-        series1.getData().add(new XYChart.Data<>("Apr", apr));
-
-        double mai = new SQL_Persistence().getPricePerMonth("%-05-%");
-        series1.getData().add(new XYChart.Data<>("Mai", mai));
-
-        double jun = new SQL_Persistence().getPricePerMonth("%-06-%");
-        series1.getData().add(new XYChart.Data<>("Jun", jun));
-
-        double jul = new SQL_Persistence().getPricePerMonth("%-07-%");
-        series1.getData().add(new XYChart.Data<>("Jul", jul));
-
-        double aug = new SQL_Persistence().getPricePerMonth("%-08-%");
-        series1.getData().add(new XYChart.Data<>("Aug", aug));
-
-        double sep = new SQL_Persistence().getPricePerMonth("%-09-%");
-        series1.getData().add(new XYChart.Data<>("Sep", sep));
-
-        double okt = new SQL_Persistence().getPricePerMonth("%-10-%");
-        series1.getData().add(new XYChart.Data<>("Okt", okt));
-
-        double nov = new SQL_Persistence().getPricePerMonth("%-11-%");
-        series1.getData().add(new XYChart.Data<>("Nov", nov));
-
-        double dez = new SQL_Persistence().getPricePerMonth("%-12-%");
-        series1.getData().add(new XYChart.Data<>("Dez", dez));
-
-
-        lineChart.getStylesheets().addAll(getClass().getResource("chart-style.css").toExternalForm());
-        lineChart.setLegendSide(Side.BOTTOM);
-        series2.setName("GA pro Monat");
-        series1.setName("Einzelfahrten");
-
-        gp.add(lineChart, 0,22,4,1);
-        lineChart.getData().addAll(series1, series2);
 
         datePicker.setValue(LocalDate.now());
         datePicker.setShowWeekNumbers(false);
