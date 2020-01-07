@@ -1,14 +1,15 @@
 package GA_Trial;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDate;
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 
 
 public class SQL_Persistence_Test  {
@@ -86,20 +87,6 @@ public class SQL_Persistence_Test  {
         }
     }
 
-    @Test
-    public void shouldTestSetTripSQLException(){
-
-        try {
-            new SQL_Persistence().setTrip("Bern", Double.parseDouble("100"), LocalDate.of(2910,12,24));
-            Class.forName("com.mysql.jdbc.Driver");
-            mockConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/calculator", "hallo", "hallo");
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Datenbank nicht gefunden");
-
-        } catch (SQLException ex) {
-            System.out.println("Ein Fehler ist aufgetreten");
-        }
-    }
 
 
     @Test

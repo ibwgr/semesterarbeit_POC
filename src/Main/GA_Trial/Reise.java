@@ -3,7 +3,7 @@ package GA_Trial;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Reise extends GUI{
+public class Reise {
 
     public int nr;
     public String destination;
