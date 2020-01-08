@@ -1,7 +1,6 @@
 package GA_Trial;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -86,7 +85,6 @@ public class GUI extends Application  {
             Button refreshMonth = new Button("Aktualisiere Monat");
             Button showAll = new Button("Zeige alle Reisen");
             Button deleteTrip = new Button("Lösche Reise");
-            Button update = new Button("Update Diagramm");
 
 
 
@@ -175,8 +173,7 @@ public class GUI extends Application  {
             gp.add(refreshMonth,0,9, 3, 1);
             gp.add(comboBoxMonat,0,8,2,1);
             gp.add(showAll,0,10, 3,1);
-            gp.add(deleteTrip, 0, 11, 2, 1);
-            gp.add(update, 0,12, 2,1);
+            gp.add(deleteTrip, 0, 12, 2, 1);
             gp.add(chartGA.chart(), 0, 22, 4, 1);
 
 
@@ -208,6 +205,9 @@ public class GUI extends Application  {
                 relation.setText(calculations.gaRelation() + "%");
                 reiseTable.setItems(data);
                 comboBoxMonat.getSelectionModel().clearSelection();
+                gp.getChildren().remove(chartGA.chart());
+                chartGA = new Chart_GA();
+                gp.add(chartGA.chart(), 0, 22, 4, 1);
             }
         });
 
@@ -244,21 +244,6 @@ public class GUI extends Application  {
 
         datePicker.setConverter(converter);
         datePicker.setPromptText("dd-MMM-yyyy");
-
-
-        update.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                primaryStage.close();
-                Platform.runLater(()-> {
-                    try {
-                        new GUI().start(new Stage());
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
-        });
 
 
         enterReise.setOnAction (new EventHandler<ActionEvent>() {
@@ -335,6 +320,9 @@ public class GUI extends Application  {
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
                     relation.setText((int) (pp * 100 / (calculations.gaPerMonth) - 100) + "%");
+                    gp.getChildren().remove(chartGA.chart());
+                    chartGA = new Chart_GA();
+                    gp.add(chartGA.chart(), 0, 22, 4, 1);
                 } catch (NullPointerException npe){
                     System.out.println("Kein Monat ausgewählt");
                     comboBoxMonat.setPromptText("MONAT WÄHLEN!");
