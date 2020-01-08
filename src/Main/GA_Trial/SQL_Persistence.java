@@ -3,11 +3,12 @@ package GA_Trial;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class SQL_Persistence extends GUI{
+public class SQL_Persistence implements Persistence  {
 
-    double sum = 0;
+
     String databse = "jdbc:mysql://localhost:3306/calculator";
     Connection con = null;
     String user = "java";
@@ -57,7 +58,7 @@ public class SQL_Persistence extends GUI{
     }
 
 
-    public ArrayList<Reise> getTrip() {
+    public List<Reise> getTrip() {
 
        ArrayList<Reise> al = new ArrayList<>();
 
@@ -93,6 +94,7 @@ public class SQL_Persistence extends GUI{
     }
 
     public double getPrices() {
+        double sum = 0;
 
         try {
             DBConnection();
@@ -121,7 +123,7 @@ public class SQL_Persistence extends GUI{
     }
 
 
-    public ArrayList<Reise> getMonthPerTrip(String monat) {
+    public List<Reise> getMonthPerTrip(String monat) {
 
         ArrayList<Reise> al = new ArrayList<>();
 
@@ -164,6 +166,7 @@ public class SQL_Persistence extends GUI{
 
 
     public double getPricePerMonth(String monat) {
+        double sum = 0;
 
         String a =  monat;
         String r = "SELECT * FROM calculator.reise where datum LIKE '"+a+"'";

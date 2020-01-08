@@ -6,13 +6,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.*;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,16 +17,28 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 
-public class GUI extends Application {
+public class GUI extends Application  {
+
+    private Chart_GA chartGA;
+    private Calculations calculations;
+    private Persistence persistence;
+
+
+    public GUI() {
+        this.persistence = new SQL_Persistence();
+        this.calculations = new Calculations(persistence);
+        this.chartGA = new Chart_GA();
+
+    }
 
     @Override
-
     public void start(Stage primaryStage) throws FileNotFoundException {
 
             // Gridpane
@@ -108,7 +117,7 @@ public class GUI extends Application {
             root.setId("root");
 
             primaryStage.setScene(scene);
-            primaryStage.setTitle("GA-Trial");
+            primaryStage.setTitle("Swisscom GA-Calculator");
             primaryStage.show();
 
             // Table
@@ -161,18 +170,23 @@ public class GUI extends Application {
             gp.add(showAll,0,10, 3,1);
             gp.add(deleteTrip, 0, 11, 2, 1);
             gp.add(update, 0,12, 2,1);
-            gp.add(new Chart_GA().chart(), 0, 22, 4, 1);
+            gp.add(chartGA.chart(), 0, 22, 4, 1);
 
 
             deleteTrip.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Reise r = reiseTable.getSelectionModel().getSelectedItem();
-                new SQL_Persistence().deleteTrip(r.nr);
-                if(comboBoxMonat.getSelectionModel().isEmpty()){
-                    showAll.fire();
-                }else {
-                    refreshMonth.fire();
+
+                try {
+                    Reise r = reiseTable.getSelectionModel().getSelectedItem();
+                    persistence.deleteTrip(r.nr);
+                    if(comboBoxMonat.getSelectionModel().isEmpty()){
+                        showAll.fire();
+                    }else {
+                        refreshMonth.fire();
+                    }
+                }catch (NullPointerException e){
+                    System.out.println("Keine Reise ausgewählt");
                 }
             }
         });
@@ -182,9 +196,9 @@ public class GUI extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                ObservableList<Reise> data = FXCollections.observableArrayList(new SQL_Persistence().getTrip());
-                kostenTotal.setText(String.valueOf(Calculations.totalCost()));
-                relation.setText(Calculations.gaRelation() + "%");
+                ObservableList<Reise> data = FXCollections.observableArrayList(persistence.getTrip());
+                kostenTotal.setText(String.valueOf(calculations.totalCost()));
+                relation.setText(calculations.gaRelation() + "%");
                 reiseTable.setItems(data);
             }
         });
@@ -242,7 +256,7 @@ public class GUI extends Application {
         enterReise.setOnAction (new EventHandler<ActionEvent>() {
             @Override
             public void handle (ActionEvent event) {
-                if((String)comboBoxZiel.getSelectionModel().getSelectedItem()=="Anderer Zielort"){
+                if(comboBoxZiel.getSelectionModel().getSelectedItem() =="Anderer Zielort"){
                     if(other.getText().matches("[a-zA-Z, ä,ö,ü,è,à,é,Ä,Ö,Ü]+")) {
                         if (price.getText().matches("[0-9, .]+")) {
                                 new SQL_Persistence().setTrip(other.getText(), Double.valueOf(price.getText()), datePicker.getValue());
@@ -281,29 +295,23 @@ public class GUI extends Application {
             @Override
             public void handle(ActionEvent event) {
                 Object selectedItem = comboBoxZiel.getSelectionModel().getSelectedItem();
-                if ("Zürich".equals(selectedItem)) {
-                    price.setText(String.valueOf(Calculations.zurich));
-                    other.clear();
-                    other.setVisible(false);
 
-                } else if ("Bern".equals(selectedItem)) {
-                    price.setText(String.valueOf(Calculations.bern));
-                    other.clear();
-                    other.setVisible(false);
-
-                } else if ("Olten".equals(selectedItem)) {
-                    price.setText(String.valueOf(Calculations.olten));
-                    other.clear();
-                    other.setVisible(false);
-
-                }else if ("Anderer Zielort".equals(selectedItem)){
+                City city = City.from((String) selectedItem);
+                switch (city) {
+                    case ANDERERZIELORT:
                     price.clear();
                     price.setPromptText("Preis eingeben");
                     other.setVisible(true);
                     other.setPromptText("Reiseziel");
                     try {
-                        gp.add(other, 1,3);
-                    }catch (IllegalArgumentException e){ }
+                        gp.add(other, 1, 3);
+                    } catch (IllegalArgumentException e) {
+                    }
+                    break;
+                    default:
+                        price.setText(String.valueOf(city.getPrice()));
+                        other.clear();
+                        other.setVisible(false);
                 }
             }
         });
@@ -314,11 +322,11 @@ public class GUI extends Application {
                 try {
                     Object selectedItem = comboBoxMonat.getSelectionModel().getSelectedItem();
                     String month = Calculations.showMonth(selectedItem.toString());
-                    ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip(month));
+                    ObservableList<Reise> abc = FXCollections.observableArrayList(persistence.getMonthPerTrip(month));
                     double pp = new SQL_Persistence().getPricePerMonth(month);
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
-                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
+                    relation.setText((int) (pp * 100 / (calculations.gaPerMonth) - 100) + "%");
                 } catch (NullPointerException npe){
                     System.out.println("Kein Monat ausgewählt");
                     comboBoxMonat.setPromptText("MONAT WÄHLEN!");
@@ -330,12 +338,12 @@ public class GUI extends Application {
             @Override
             public void handle(ActionEvent event) {
                 Object selectedItem = comboBoxMonat.getSelectionModel().getSelectedItem();
-                    String month = Calculations.showMonth(selectedItem.toString());
-                    ObservableList<Reise> abc = FXCollections.observableArrayList(new SQL_Persistence().getMonthPerTrip(month));
-                    double pp = new SQL_Persistence().getPricePerMonth(month);
-                    reiseTable.setItems(abc);
-                    kostenTotal.setText(String.valueOf(pp));
-                    relation.setText((int) (pp * 100 / (Calculations.gaPerMonth) - 100) + "%");
+                String month = Calculations.showMonth(selectedItem.toString());
+                ObservableList<Reise> abc = FXCollections.observableArrayList(persistence.getMonthPerTrip(month));
+                double pp = new SQL_Persistence().getPricePerMonth(month);
+                reiseTable.setItems(abc);
+                kostenTotal.setText(String.valueOf(pp));
+                relation.setText((int) (pp * 100 / (calculations.gaPerMonth) - 100) + "%");
             }
         });
     }

@@ -6,25 +6,26 @@ import javafx.scene.chart.*;
 
 import java.util.Arrays;
 
+
 public class Chart_GA {
+
+        final CategoryAxis xAxis = new CategoryAxis();
+        final NumberAxis yAxis = new NumberAxis(0, 500, 50);
+
+        final LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
+        XYChart.Series<String, Number> series2 = new XYChart.Series<>();
+        XYChart.Series<String, Number> series1 = new XYChart.Series<>();
 
 
     public Chart_GA(){ }
 
-
     public Chart chart () {
 
-            final CategoryAxis xAxis = new CategoryAxis();
-            final NumberAxis yAxis = new NumberAxis(0, 500, 50);
-
-            final LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
-
+            // Stream.of(Month.values()).map(month -> month.getName().substring(0,3)).collect(Collectors.toList());
             xAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList
                     ("Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez")));
 
             yAxis.setLabel("Reisekosten");
-
-            XYChart.Series<String, Number> series2 = new XYChart.Series<>();
 
             series2.getData().add(new XYChart.Data<>("Jan", Calculations.gaPerMonth));
             series2.getData().add(new XYChart.Data<>("Feb", Calculations.gaPerMonth));
@@ -39,8 +40,8 @@ public class Chart_GA {
             series2.getData().add(new XYChart.Data<>("Nov", Calculations.gaPerMonth));
             series2.getData().add(new XYChart.Data<>("Dez", Calculations.gaPerMonth));
 
-            XYChart.Series<String, Number> series1 = new XYChart.Series<>();
 
+            // for loop with use Calculation showMonth and substring(0, 3) of month name
             double jan = new SQL_Persistence().getPricePerMonth("%-01-%");
             series1.getData().add(new XYChart.Data<>("Jan", jan));
 
@@ -72,6 +73,7 @@ public class Chart_GA {
             series1.getData().add(new XYChart.Data<>("Okt", okt));
 
             double nov = new SQL_Persistence().getPricePerMonth("%-11-%");
+
             series1.getData().add(new XYChart.Data<>("Nov", nov));
 
             double dez = new SQL_Persistence().getPricePerMonth("%-12-%");

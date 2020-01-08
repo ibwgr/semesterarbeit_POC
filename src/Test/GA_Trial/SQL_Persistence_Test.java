@@ -1,27 +1,18 @@
 package GA_Trial;
 
 import org.junit.*;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import javax.sql.DataSource;
+import org.mockito.MockitoAnnotations;;
 import java.sql.*;
 import java.time.LocalDate;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 
-
 public class SQL_Persistence_Test  {
 
 
-    @InjectMocks SQL_Persistence sql_persistence;
     @Mock private Connection mockConnection;
-    @Mock private PreparedStatement mockStatement;
-    @Mock private DataSource ds;
-    @Mock ResultSet rs;
-    @Mock DriverManager dm;
-
 
 
     @Before
@@ -72,7 +63,7 @@ public class SQL_Persistence_Test  {
     }
 
 
-    @Test
+    @Test(expected = SQLException.class)
     public void shouldTestGetTripSQLException(){
 
         try {
