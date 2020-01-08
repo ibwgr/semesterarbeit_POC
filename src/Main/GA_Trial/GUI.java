@@ -32,14 +32,18 @@ public class GUI extends Application  {
 
 
     public GUI() {
+
         this.persistence = new SQL_Persistence();
         this.calculations = new Calculations(persistence);
         this.chartGA = new Chart_GA();
 
     }
 
+
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
+
+
 
             // Gridpane
             GridPane gp = new GridPane();
@@ -85,6 +89,8 @@ public class GUI extends Application  {
             Button update = new Button("Update Diagramm");
 
 
+
+
            // Image
             Image im = new Image(new FileInputStream("picture/logo.png"));
             ImageView image = new ImageView(im);
@@ -119,6 +125,7 @@ public class GUI extends Application  {
             primaryStage.setScene(scene);
             primaryStage.setTitle("Swisscom GA-Calculator");
             primaryStage.show();
+
 
             // Table
             TableView<Reise> reiseTable = new TableView<>();
@@ -346,5 +353,7 @@ public class GUI extends Application  {
                 relation.setText((int) (pp * 100 / (calculations.gaPerMonth) - 100) + "%");
             }
         });
+
+        showAll.fire();
     }
 }

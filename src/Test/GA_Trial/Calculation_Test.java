@@ -4,7 +4,6 @@ package GA_Trial;
 import org.junit.Before;
 import org.junit.Test;
 
-
 import static GA_Trial.Calculations.gaPreis;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
