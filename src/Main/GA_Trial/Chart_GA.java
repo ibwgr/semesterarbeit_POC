@@ -83,7 +83,9 @@ public class Chart_GA {
             series2.setName("GA pro Monat");
             series1.setName("Einzelfahrten");
 
-            lineChart.getData().addAll(series1, series2);
+            if(lineChart.getData().isEmpty()) {
+                    lineChart.getData().addAll(series1, series2);
+            }
 
             return lineChart;
 

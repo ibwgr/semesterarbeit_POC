@@ -103,7 +103,7 @@ public class SQL_Persistence implements Persistence  {
                 Statement stat = con.createStatement();
                 ResultSet x = stat.executeQuery("select preis from calculator.reise");
                 while (x.next()){
-                    double c = x.getInt("preis");
+                    double c = x.getDouble("preis");
                     sum = sum + c;
                 }
             }
@@ -119,7 +119,7 @@ public class SQL_Persistence implements Persistence  {
                 }
             }
         }
-        return sum;
+        return Math.round(sum * 100)/100.0;
     }
 
 
@@ -195,7 +195,7 @@ public class SQL_Persistence implements Persistence  {
                 }
             }
         }
-        return sum;
+        return Math.round(sum * 100)/100.0;
     }
 
 
