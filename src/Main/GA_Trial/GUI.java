@@ -207,6 +207,7 @@ public class GUI extends Application  {
                 kostenTotal.setText(String.valueOf(calculations.totalCost()));
                 relation.setText(calculations.gaRelation() + "%");
                 reiseTable.setItems(data);
+                comboBoxMonat.getSelectionModel().clearSelection();
             }
         });
 
@@ -344,13 +345,15 @@ public class GUI extends Application  {
         comboBoxMonat.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Object selectedItem = comboBoxMonat.getSelectionModel().getSelectedItem();
-                String month = Calculations.showMonth(selectedItem.toString());
-                ObservableList<Reise> abc = FXCollections.observableArrayList(persistence.getMonthPerTrip(month));
-                double pp = new SQL_Persistence().getPricePerMonth(month);
-                reiseTable.setItems(abc);
-                kostenTotal.setText(String.valueOf(pp));
-                relation.setText((int) (pp * 100 / (calculations.gaPerMonth) - 100) + "%");
+                if (comboBoxMonat.getValue() != null) {
+                    Object selectedItem = comboBoxMonat.getSelectionModel().getSelectedItem();
+                    String month = Calculations.showMonth(selectedItem.toString());
+                    ObservableList<Reise> abc = FXCollections.observableArrayList(persistence.getMonthPerTrip(month));
+                    double pp = new SQL_Persistence().getPricePerMonth(month);
+                    reiseTable.setItems(abc);
+                    kostenTotal.setText(String.valueOf(pp));
+                    relation.setText((int) (pp * 100 / (calculations.gaPerMonth) - 100) + "%");
+                }
             }
         });
 
