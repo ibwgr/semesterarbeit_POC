@@ -95,11 +95,13 @@ public class GUI extends Application  {
             image.setFitHeight(50);
             image.setFitWidth(50);
 
-            FileInputStream input = new FileInputStream("picture/logo_Kopie.png");
+            FileInputStream input = new FileInputStream("picture/hintergrund.jpeg");
             Image i = new Image(input);
 
-
-            BackgroundImage background = new BackgroundImage(i, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+            BackgroundImage background = new BackgroundImage(
+                    i, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true,true,true, true));
             Background bg = new Background(background);
 
 
