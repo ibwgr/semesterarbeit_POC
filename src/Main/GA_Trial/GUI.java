@@ -252,7 +252,7 @@ public class GUI extends Application  {
                 if(comboBoxZiel.getSelectionModel().getSelectedItem() =="Anderer Zielort"){
                     if(other.getText().matches("[a-zA-Z, ä,ö,ü,è,à,é,Ä,Ö,Ü]+")) {
                         if (price.getText().matches("[0-9, .]+")) {
-                                new SQL_Persistence().setTrip(other.getText(), Double.valueOf(price.getText()), datePicker.getValue());
+                                persistence.setTrip(other.getText(), Double.valueOf(price.getText()), datePicker.getValue());
                                 if(comboBoxMonat.getSelectionModel().isEmpty()){
                                 showAll.fire();
                                 }else {
@@ -316,7 +316,7 @@ public class GUI extends Application  {
                     Object selectedItem = comboBoxMonat.getSelectionModel().getSelectedItem();
                     String month = Calculations.showMonth(selectedItem.toString());
                     ObservableList<Reise> abc = FXCollections.observableArrayList(persistence.getMonthPerTrip(month));
-                    double pp = new SQL_Persistence().getPricePerMonth(month);
+                    double pp = persistence.getPricePerMonth(month);
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
                     relation.setText((int) (pp * 100 / (calculations.gaPerMonth) - 100) + "%");
@@ -337,7 +337,7 @@ public class GUI extends Application  {
                     Object selectedItem = comboBoxMonat.getSelectionModel().getSelectedItem();
                     String month = Calculations.showMonth(selectedItem.toString());
                     ObservableList<Reise> abc = FXCollections.observableArrayList(persistence.getMonthPerTrip(month));
-                    double pp = new SQL_Persistence().getPricePerMonth(month);
+                    double pp = persistence.getPricePerMonth(month);
                     reiseTable.setItems(abc);
                     kostenTotal.setText(String.valueOf(pp));
                     relation.setText((int) (pp * 100 / (calculations.gaPerMonth) - 100) + "%");
