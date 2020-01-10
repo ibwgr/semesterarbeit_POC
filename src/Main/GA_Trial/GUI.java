@@ -53,9 +53,6 @@ public class GUI extends Application  {
             gp.setGridLinesVisible(false);
 
 
-            // Stackpane
-            StackPane stack = new StackPane();
-
             // Labels
             Label erfassung = new Label("Erfassung");
             erfassung.setFont(Font.font("Cambria", 25) );
@@ -82,7 +79,6 @@ public class GUI extends Application  {
             //Buttons
             Button enterReise = new Button("Reise erfassen");
             gp.setHalignment(enterReise, HPos.RIGHT);
-            Button refreshMonth = new Button("Aktualisiere Monat");
             Button showAll = new Button("Zeige alle Reisen");
             Button deleteTrip = new Button("Lösche Reise");
 
@@ -114,7 +110,6 @@ public class GUI extends Application  {
             Scene scene = new Scene(root,675,900);
             root.setCenter(gp);
             root.setTop(image);
-            root.setBottom(stack);
             root.setBackground(bg);
 
 
@@ -148,9 +143,7 @@ public class GUI extends Application  {
             // Verhindert, dass aufgrund vom vorhandenen Platz eine leere Spalte erzeugt wird
             reiseTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-
             reiseTable.getColumns().addAll(number, destination, preis, datum);
-
             reiseTable.minWidth(400);
 
 
@@ -172,9 +165,8 @@ public class GUI extends Application  {
             gp.add(datePicker,2,2);
             gp.add(enterReise,3,3);
 
-            gp.add(refreshMonth,0,9, 3, 1);
             gp.add(comboBoxMonat,0,8,2,1);
-            gp.add(showAll,0,10, 3,1);
+            gp.add(showAll,0,9, 3,1);
             gp.add(deleteTrip, 0, 12, 2, 1);
             gp.add(chartGA.chart(), 0, 22, 4, 1);
 
@@ -189,7 +181,10 @@ public class GUI extends Application  {
                     if(comboBoxMonat.getSelectionModel().isEmpty()){
                         showAll.fire();
                     }else {
-                        refreshMonth.fire();
+                        selectMonth(comboBoxMonat, reiseTable, kostenTotal, relation);
+                        gp.getChildren().remove(chartGA.chart());
+                        chartGA = new Chart_GA();
+                        gp.add(chartGA.chart(), 0, 22, 4, 1);
                     }
                 }catch (NullPointerException e){
                     System.out.println("Keine Reise ausgewählt");
@@ -255,10 +250,18 @@ public class GUI extends Application  {
                     if(other.getText().matches("[a-zA-Z, ä,ö,ü,è,à,é,Ä,Ö,Ü]+")) {
                         if (price.getText().matches("[0-9, .]+")) {
                                 persistence.setTrip(other.getText(), Double.valueOf(price.getText()), datePicker.getValue());
+                                comboBoxZiel.getSelectionModel().clearSelection();
+                                other.clear();
+                                other.setVisible(false);
+                                price.clear();
+                                price.setPromptText("");
                                 if(comboBoxMonat.getSelectionModel().isEmpty()){
                                 showAll.fire();
                                 }else {
-                                    refreshMonth.fire();
+                                    selectMonth(comboBoxMonat, reiseTable, kostenTotal, relation);
+                                    gp.getChildren().remove(chartGA.chart());
+                                    chartGA = new Chart_GA();
+                                    gp.add(chartGA.chart(), 0, 22, 4, 1);
                                 }
                         } else {
                                 price.setText("Preis fehlt!");
@@ -269,10 +272,15 @@ public class GUI extends Application  {
                 } else {
                     if(price.getText().matches("[0-9, .]+")){
                     new SQL_Persistence().setTrip((String) comboBoxZiel.getSelectionModel().getSelectedItem(), Double.valueOf(price.getText()), datePicker.getValue());
+                    comboBoxZiel.getSelectionModel().clearSelection();
+                    price.clear();
                         if(comboBoxMonat.getSelectionModel().isEmpty()){
                             showAll.fire();
                         }else {
-                            refreshMonth.fire();
+                            selectMonth(comboBoxMonat, reiseTable, kostenTotal, relation);
+                            gp.getChildren().remove(chartGA.chart());
+                            chartGA = new Chart_GA();
+                            gp.add(chartGA.chart(), 0, 22, 4, 1);
                         }
                     } else {
                         if (comboBoxZiel.getSelectionModel().isEmpty()){
@@ -311,42 +319,25 @@ public class GUI extends Application  {
             }
         });
 
-        refreshMonth.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    Object selectedItem = comboBoxMonat.getSelectionModel().getSelectedItem();
-                    String month = Calculations.showMonth(selectedItem.toString());
-                    ObservableList<Reise> abc = FXCollections.observableArrayList(persistence.getMonthPerTrip(month));
-                    double pp = persistence.getPricePerMonth(month);
-                    reiseTable.setItems(abc);
-                    kostenTotal.setText(String.valueOf(pp));
-                    relation.setText((int) (pp * 100 / (calculations.gaPerMonth) - 100) + "%");
-                    gp.getChildren().remove(chartGA.chart());
-                    chartGA = new Chart_GA();
-                    gp.add(chartGA.chart(), 0, 22, 4, 1);
-                } catch (NullPointerException npe){
-                    System.out.println("Kein Monat ausgewählt");
-                    comboBoxMonat.setPromptText("MONAT WÄHLEN!");
-                }
-            }
-        });
-
         comboBoxMonat.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if (comboBoxMonat.getValue() != null) {
-                    Object selectedItem = comboBoxMonat.getSelectionModel().getSelectedItem();
-                    String month = Calculations.showMonth(selectedItem.toString());
-                    ObservableList<Reise> abc = FXCollections.observableArrayList(persistence.getMonthPerTrip(month));
-                    double pp = persistence.getPricePerMonth(month);
-                    reiseTable.setItems(abc);
-                    kostenTotal.setText(String.valueOf(pp));
-                    relation.setText((int) (pp * 100 / (calculations.gaPerMonth) - 100) + "%");
+                    selectMonth(comboBoxMonat, reiseTable, kostenTotal, relation);
                 }
             }
         });
 
         showAll.fire();
+    }
+
+    private void selectMonth(ComboBox comboBoxMonat, TableView<Reise> reiseTable, TextField kostenTotal, TextField relation) {
+        Object selectedItem = comboBoxMonat.getSelectionModel().getSelectedItem();
+        String month = Calculations.showMonth(selectedItem.toString());
+        ObservableList<Reise> abc = FXCollections.observableArrayList(persistence.getMonthPerTrip(month));
+        double pp = persistence.getPricePerMonth(month);
+        reiseTable.setItems(abc);
+        kostenTotal.setText(String.valueOf(pp));
+        relation.setText((int) (pp * 100 / (calculations.gaPerMonth) - 100) + "%");
     }
 }
