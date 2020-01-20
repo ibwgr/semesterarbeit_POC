@@ -7,7 +7,7 @@ Verhältnis zu einzeln gekauften Reisen nachweisen.
 ## Vorbereitung und Applikationsstart
 Folgende Schritte müssen zur Vorbereitung und zum Starten der Applikation durchgeführt werden:
 ### Erstellung der benötigten lokalen Datenbank
-Verwendung einer MariaDB Datenbank.
+Verwendung einer MariaDB oder MySQL Datenbank.
 Folgende Schritte müssen als root (oder als user mit entsprechenden Rechten) ausgeführt werden:
 1. Erstellung einer Datenbank mit DB Name: calculator
 ```
