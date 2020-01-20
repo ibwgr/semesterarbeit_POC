@@ -1,5 +1,7 @@
 package GA_Trial;
 
+import javafx.fxml.FXML;
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,7 +11,7 @@ import java.util.List;
 public class SQL_Persistence implements Persistence  {
 
 
-    String databse = "jdbc:mysql://localhost:3306/calculator";
+    String database = "jdbc:mysql://localhost:3306/calculator";
     Connection con = null;
     String user = "java";
     String password = "java";
@@ -21,7 +23,7 @@ public class SQL_Persistence implements Persistence  {
     public void DBConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(databse, user, password);
+            con = DriverManager.getConnection(database, user, password);
         }catch (SQLException ex){
             System.out.println("Ein Fehler ist aufgetreten");
             ex.printStackTrace();
