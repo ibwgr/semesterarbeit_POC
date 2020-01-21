@@ -31,13 +31,6 @@
     <Label fx:id="preisSum" text="Total Reisekosten" GridPane.columnIndex="2" GridPane.rowIndex="19"/>
     <Label fx:id="gaRel" text="Preisverhältnis zu GA" GridPane.columnIndex="3" GridPane.rowIndex="19"/>
 
-    <TextField fx:id="price" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
-    <TextField fx:id="kostenTotal" GridPane.columnIndex="2" GridPane.rowIndex="20" GridPane.columnSpan="1" GridPane.rowSpan="2"/>
-    <TextField fx:id="relation" GridPane.columnIndex="3" GridPane.rowIndex="20" GridPane.columnSpan="1" GridPane.rowSpan="2"/>
-    <TextField fx:id="other" GridPane.columnIndex="1" GridPane.rowIndex="3" visible="false"/>
-
-
-
     <ComboBox fx:id="comboBoxZiel" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="Bitte auswählen" onAction="#setDestination">
         <items>
             <FXCollections fx:factory="observableArrayList">
@@ -48,6 +41,14 @@
             </FXCollections>
         </items>
     </ComboBox>
+
+    <TextField fx:id="other" GridPane.columnIndex="1" GridPane.rowIndex="3" visible="false"/>
+
+    <DatePicker fx:id="datePicker" GridPane.columnIndex="2" GridPane.rowIndex="2" onAction="#setDatepicker"/>
+
+    <TextField fx:id="price" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+
+    <Button fx:id="enterReise" text="Erfasse Reise" GridPane.columnIndex="3" GridPane.rowIndex="3" GridPane.halignment="RIGHT" onAction="#setTrip"/>
 
     <ComboBox fx:id="comboBoxMonat" GridPane.columnIndex="0" GridPane.rowIndex="8" GridPane.columnSpan="2" GridPane.rowSpan="1" promptText="Bitte auswählen" onAction="#setMonth">
         <items>
@@ -68,36 +69,32 @@
         </items>
     </ComboBox>
 
-    <Button fx:id="enterReise" text="Erfasse Reise" GridPane.columnIndex="3" GridPane.rowIndex="3" alignment="TOP_RIGHT" onAction="#setTrip"/>
     <Button fx:id="showAll" text="Zeige alle Reisen" GridPane.columnIndex="0" GridPane.rowIndex="9" GridPane.columnSpan="3" GridPane.rowSpan="1" onAction="#showAllTrips"/>
-    <Button fx:id="deleteTrip" text="Reise löschen" GridPane.columnIndex="0" GridPane.rowIndex="10" GridPane.columnSpan="2" GridPane.rowSpan="1" onAction="#deleteTrip"/>
 
-    <DatePicker fx:id="datePicker" GridPane.columnIndex="2" GridPane.rowIndex="2" onAction="#setDatepicker"/>
-
-
-    <BorderPane>
-    </BorderPane>
-
-
-    <TableView fx:id="reiseTable" GridPane.columnIndex="2" GridPane.rowIndex="7" GridPane.columnSpan="2" GridPane.rowSpan="12" minWidth="400">
+    <TableView fx:id="reiseTable" GridPane.columnIndex="2" GridPane.rowIndex="7" GridPane.columnSpan="2" GridPane.rowSpan="12" minWidth="120">
         <columns>
             <TableColumn fx:id="nr" text="ID" visible="false">
                 <cellValueFactory><PropertyValueFactory property="nr"/>
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn fx:id="destination" text="Destination" minWidth="100">
+            <TableColumn fx:id="destination" text="Destination" minWidth="80">
                 <cellValueFactory><PropertyValueFactory property="destination" />
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn fx:id="preis" text="Reisekosten" minWidth="100">
-            <cellValueFactory><PropertyValueFactory property="preis"/>
-            </cellValueFactory>
-        </TableColumn>
-            <TableColumn fx:id="datum" text="Reisedatum" minWidth="100">
+            <TableColumn fx:id="preis" text="Reisekosten" minWidth="80">
+                <cellValueFactory><PropertyValueFactory property="preis"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="datum" text="Reisedatum" minWidth="80">
                 <cellValueFactory><PropertyValueFactory property="date"/>
                 </cellValueFactory>
             </TableColumn>
         </columns>
     </TableView>
+
+    <Button fx:id="deleteTrip" text="Reise löschen" GridPane.columnIndex="0" GridPane.rowIndex="10" GridPane.columnSpan="2" GridPane.rowSpan="1" onAction="#deleteTrip"/>
+
+    <TextField fx:id="kostenTotal" GridPane.columnIndex="2" GridPane.rowIndex="20" GridPane.columnSpan="1" GridPane.rowSpan="2"/>
+    <TextField fx:id="relation" GridPane.columnIndex="3" GridPane.rowIndex="20" GridPane.columnSpan="1" GridPane.rowSpan="2"/>
 
 </GridPane>
