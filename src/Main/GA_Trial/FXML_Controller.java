@@ -3,6 +3,9 @@ package GA_Trial;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -147,20 +150,22 @@ public class FXML_Controller  {
 
     @FXML
     public void setDestination(ActionEvent event) {
-        Object selectedItem = comboBoxZiel.getSelectionModel().getSelectedItem();
+        if(comboBoxZiel.getValue() != null) {
+            Object selectedItem = comboBoxZiel.getSelectionModel().getSelectedItem();
 
-        City city = City.from((String) selectedItem);
-        switch (city) {
-            case ANDERERZIELORT:
-                price.clear();
-                price.setPromptText("Preis eingeben");
-                other.setVisible(true);
-                other.setPromptText("Reiseziel");
-                break;
-            default:
-                price.setText(String.valueOf(city.getPrice()));
-                other.clear();
-                other.setVisible(false);
+            City city = City.from((String) selectedItem);
+            switch (city) {
+                case ANDERERZIELORT:
+                    price.clear();
+                    price.setPromptText("Preis eingeben");
+                    other.setVisible(true);
+                    other.setPromptText("Reiseziel");
+                    break;
+                default:
+                    price.setText(String.valueOf(city.getPrice()));
+                    other.clear();
+                    other.setVisible(false);
+            }
         }
     }
 
