@@ -17,7 +17,7 @@ public class Chart_GA {
         XYChart.Series<String, Number> series1 = new XYChart.Series<>();
 
 
-    public Chart_GA(){ }
+   public Chart_GA(){ }
 
     public Chart chart () {
 
@@ -90,4 +90,4 @@ public class Chart_GA {
             return lineChart;
 
         }
-    }
+   }
