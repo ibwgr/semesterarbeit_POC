@@ -1,0 +1,30 @@
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.default-color0.chart-series-line {
+    -fx-stroke: blue;
+}
+
+.default-color1.chart-series-line{
+    -fx-stroke: red;
+}
+
+.default-color0.chart-line-symbol {
+    -fx-background-color: blue, white;
+}
+
+.default-color1.chart-line-symbol {
+    -fx-background-color: red, white;
+}
+
+
+#auswertung {
+    -fx-font-family: Courier;
+    -fx-font-size: 25px;
+}
+
+#erfassung {
+    -fx-font-family: Courier;
+    -fx-font-size: 25px;
+}
