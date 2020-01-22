@@ -3,18 +3,14 @@ package GA_Trial;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-<<<<<<< HEAD
-=======
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
->>>>>>> 5e4bc557fb6a426a9f7a50dd127f0f9a36d04e22
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
 
 
 
