@@ -25,7 +25,7 @@
     <Label fx:id="standOrt" text="Von" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
     <Label fx:id="reiseziel" text="Nach" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
     <Label fx:id="reisedatum" text="Datum" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-    <Label fx:id="koseten" text="Kosten" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+    <Label fx:id="kosten" text="Kosten" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
     <Label fx:id="chur" text="Chur" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
     <Label fx:id="auswertung" text="Auswertung" GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.rowSpan="1" GridPane.columnSpan="2"/>
     <Label fx:id="preisSum" text="Total Reisekosten" GridPane.columnIndex="2" GridPane.rowIndex="19"/>

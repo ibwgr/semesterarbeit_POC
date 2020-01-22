@@ -1,14 +1,12 @@
 package GA_Trial;
 
+import javafx.scene.control.*;
+import org.junit.Test;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
-import org.junit.Test;
 import org.loadui.testfx.GuiTest;
 import static org.junit.Assert.*;
-
-
 import java.io.IOException;
 
 
@@ -22,7 +20,7 @@ public class GUI_Test extends GuiTest {
 
         try {
             parent = FXMLLoader.load(getClass().getResource("FXML-View.fxml"));
-            return parent;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,7 +35,7 @@ return parent;
         assertTrue(erfassen.getText().equals("Erfassen"));
     }
 
-    @Test
+   @Test
     public void shouldShowRightStandortText(){
         Label standort = find("#standOrt");
         assertTrue(standort.getText().equals("Von"));
@@ -85,22 +83,6 @@ return parent;
         assertTrue(preissum.getText().equals("Total Reisekosten"));
     }
 
-
-    @Test
-    public void shouldClickComboBoxDestination(){
-        ComboBox destination = find("#comboBoxZiel");
-        click(destination);
-        assertTrue(destination.isShowing());
-    }
-
-    @Test
-    public void shouldClickComboBoxMonth(){
-        ComboBox month = find("#comboBoxMonat");
-        click(month);
-        assertTrue(month.isShowing());
-    }
-
-
     @Test
     public void shouldShowMonthJanuary() {
         ComboBox month = find("#comboBoxMonat");
@@ -109,7 +91,6 @@ return parent;
         assertTrue(month.getSelectionModel().getSelectedItem().equals("Januar"));
     }
 
-
     @Test
     public void shouldShowRightTextEnterReiseButton(){
         Button enterReise= find("#enterReise");
@@ -117,23 +98,9 @@ return parent;
     }
 
     @Test
-    public void shouldClickDeleteTripButton(){
-        Button deleteTrip = find("#deleteTrip");
-        click(deleteTrip);
-        assertTrue(deleteTrip.isFocused());
-    }
-
-    @Test
     public void shouldShowRightTextDeleteReiseButton(){
         Button deleteReise= find("#deleteTrip");
         assertTrue(deleteReise.getText().equals("Reise löschen"));
-    }
-
-    @Test
-    public void shouldClickOnShowAllButton(){
-        Button showAll = find("#showAll");
-        click(showAll);
-        assertTrue(showAll.isFocused());
     }
 
     @Test
@@ -146,14 +113,7 @@ return parent;
     public void shouldClickDatePicker(){
         DatePicker datePicker = find("#datePicker");
         click(datePicker);
-        assertTrue(datePicker.isFocused());
-    }
-
-    @Test
-    public void shouldClickEnterReiseButton(){
-        Button enterReise = find("#enterReise");
-        click(enterReise);
-        assertTrue(enterReise.isFocused());
+        assertTrue(datePicker.isShowWeekNumbers());
     }
 
     @Test
@@ -163,7 +123,7 @@ return parent;
         click("Anderer Zielort");
         sleep(1000);
         TextField other = find("#other");
-        other.setText("Test123");
+        other.setText("Test");
         sleep(1000);
         TextField price = find("#price");
         price.setText("999");
@@ -171,8 +131,83 @@ return parent;
         Button erfassen = find("#enterReise");
         click(erfassen);
         sleep(1000);
+        Node tableView = find("#preis");
+        click(tableView);
+        click(tableView);
         click("999.0");
         sleep(1000);
         click("#deleteTrip");
+    }
+
+    @Test
+    public void testIfBernShowsTheRightPrice(){
+        ComboBox reiseZiel = find("#comboBoxZiel");
+        click(reiseZiel);
+        reiseZiel.getSelectionModel().select(1);
+        sleep(1000);
+        click();
+        TextField price = find("#price");
+        assertTrue(price.getText().equals("127.0"));
+    }
+
+    @Test
+    public void testIfZuerichShowsTheRightPrice(){
+        ComboBox reiseZiel = find("#comboBoxZiel");
+        click(reiseZiel);
+        reiseZiel.getSelectionModel().select(0);
+        sleep(1000);
+        click();
+        TextField price = find("#price");
+        assertTrue(price.getText().equals("81.9"));
+    }
+
+    @Test
+    public void testIfOltenShowsTheRightPrice(){
+        ComboBox reiseZiel = find("#comboBoxZiel");
+        click(reiseZiel);
+        reiseZiel.getSelectionModel().select(2);
+        sleep(1000);
+        click();
+        TextField price = find("#price");
+        assertTrue(price.getText().equals("116.7"));
+    }
+
+    @Test
+    public void testNopPriceSelectedValidation(){
+        ComboBox reiseZiel = find("#comboBoxZiel");
+        click(reiseZiel);
+        reiseZiel.getSelectionModel().select(2);
+        sleep(1000);
+        click();
+        TextField price = find("#price");
+        price.clear();
+        Button erfassen = find("#enterReise");
+        click(erfassen);
+        assertTrue(price.getText().equals("Kein gültiger Betrag"));
+    }
+
+
+    @Test
+    public void e2eProbingPriceValidation(){
+        ComboBox reiseZiel = find("#comboBoxZiel");
+        click(reiseZiel);
+        click("Anderer Zielort");
+        sleep(1000);
+        TextField other = find("#other");
+        other.setText("Test");
+        Button erfassen = find("#enterReise");
+        click(erfassen);
+        sleep(1000);
+        TextField price = find("#price");
+        assertTrue(price.getText().equals("Preis fehlt!"));
+    }
+
+    @Test
+    public void e2eProbingDestinationValidation(){
+        Button erfassen = find("#enterReise");
+        click(erfassen);
+        sleep(1000);
+        TextField price = find("#price");
+        assertTrue(price.getText().equals("Kein Reiseziel gewählt!"));
     }
 }
