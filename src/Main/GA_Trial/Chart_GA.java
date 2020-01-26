@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class Chart_GA {
 
         final CategoryAxis xAxis = new CategoryAxis();
-        final NumberAxis yAxis = new NumberAxis(0, 500, 50);
+        final NumberAxis yAxis = new NumberAxis(0, 1200, 100);
 
         final LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
         XYChart.Series<String, Number> series2 = new XYChart.Series<>();

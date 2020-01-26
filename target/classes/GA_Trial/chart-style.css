@@ -20,11 +20,11 @@
 
 
 #auswertung {
-    -fx-font-family: Courier;
+    -fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
     -fx-font-size: 25px;
 }
 
 #erfassung {
-     -fx-font-family: Courier;
+     -fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
      -fx-font-size: 25px;
  }
